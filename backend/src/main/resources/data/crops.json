@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Potato",
+    "category": "Gold",
+    "species": "Solanum tuberosum",
+
+    "nutrition": {
+      "kcalPerGram": 0.75
+    },
+
+    "yield": {
+      "yieldMinGrams": 1134,
+      "yieldMaxGrams": 1814
+    }
+  },
+  {
+    "name": "Potato",
+    "category": "Red",
+    "species": "Solanum tuberosum",
+
+    "nutrition": {
+      "kcalPerGram": 0.73
+    },
+
+    "yield": {
+      "yieldMinGrams": 907,
+      "yieldMaxGrams": 1588
+    }
+  },
+  {
+    "name": "Potato",
+    "category": "Russet",
+    "species": "Solanum tuberosum",
+
+    "nutrition": {
+      "kcalPerGram": 0.81
+    },
+
+    "yield": {
+      "yieldMinGrams": 1361,
+      "yieldMaxGrams": 2268
+    }
+  }
+]
