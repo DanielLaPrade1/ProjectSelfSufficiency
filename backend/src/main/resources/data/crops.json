@@ -40,5 +40,20 @@
       "yieldMinGrams": 1361,
       "yieldMaxGrams": 2268
     }
+  },
+  {
+    "name": "Tomato",
+    "category": "Roma",
+    "species": " Solanum lycopersicum",
+
+    "nutrition": {
+      "kcalPerGram": 0.19
+    },
+
+    "yield": {
+      "yieldMinGrams": 6803,
+      "yieldMaxGrams": 13607
+    }
   }
+
 ]

@@ -1,4 +1,4 @@
-package com.daniellaprade1.self_sufficiency_simulation.entity;
+package com.daniellaprade1.self_sufficiency_simulation.crop.entity;
 
 import jakarta.persistence.*;
 
