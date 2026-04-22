@@ -1,21 +1,19 @@
 package com.daniellaprade1.self_sufficiency_simulation.crop.entity;
 
-import jakarta.persistence.Entity;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "yield_data")
-public class Yield {
+public class Profile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private float kcalPerGram;
     private int yieldMinGrams;
     private int yieldMaxGrams;
 
     @OneToOne
-    @JoinColumn(name = "crop_id")
-    private Crop crop;
-
+    @JoinColumn(name = "variety")
+    private Variety variety;
 }

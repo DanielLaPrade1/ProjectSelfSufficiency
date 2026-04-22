@@ -1,7 +1,7 @@
 [
   {
     "name": "Potato",
-    "category": "Gold",
+    "variety": "Gold",
     "species": "Solanum tuberosum",
 
     "nutrition": {
@@ -15,7 +15,7 @@
   },
   {
     "name": "Potato",
-    "category": "Red",
+    "variety": "Red",
     "species": "Solanum tuberosum",
 
     "nutrition": {
@@ -29,7 +29,7 @@
   },
   {
     "name": "Potato",
-    "category": "Russet",
+    "variety": "Russet",
     "species": "Solanum tuberosum",
 
     "nutrition": {
@@ -43,7 +43,7 @@
   },
   {
     "name": "Tomato",
-    "category": "Roma",
+    "variety": "Roma",
     "species": " Solanum lycopersicum",
 
     "nutrition": {
@@ -55,5 +55,4 @@
       "yieldMaxGrams": 13607
     }
   }
-
 ]
