@@ -20,7 +20,7 @@ public class Variety {
     private Crop crop;
 
     @OneToOne(mappedBy = "variety", cascade = CascadeType.ALL)
-    private Profile profile;
+    private CropProfile profile;
 
     public Variety() {
     }
@@ -49,11 +49,11 @@ public class Variety {
         this.crop = crop;
     }
 
-    public Profile getProfile() {
+    public CropProfile getProfile() {
         return profile;
     }
 
-    public void setProfile(Profile profile) {
+    public void setProfile(CropProfile profile) {
         this.profile = profile;
     }
 

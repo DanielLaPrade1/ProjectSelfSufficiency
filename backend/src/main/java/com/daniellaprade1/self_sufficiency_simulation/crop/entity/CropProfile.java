@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Profile {
+public class CropProfile {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,10 +19,10 @@ public class Profile {
     @JoinColumn(name = "variety")
     private Variety variety;
 
-    public Profile() {
+    public CropProfile() {
     }
 
-    public Profile(Long id, float kcalPerGram, int yieldMinGrams, int yieldMaxGrams, Variety variety) {
+    public CropProfile(Long id, float kcalPerGram, int yieldMinGrams, int yieldMaxGrams, Variety variety) {
         this.id = id;
         this.kcalPerGram = kcalPerGram;
         this.yieldMinGrams = yieldMinGrams;
@@ -73,7 +73,7 @@ public class Profile {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Profile profile = (Profile) o;
+        CropProfile profile = (CropProfile) o;
         return Objects.equals(id, profile.id);
     }
 
@@ -84,7 +84,7 @@ public class Profile {
 
     @Override
     public String toString() {
-        return "Profile{" +
+        return "CropProfile{" +
                 "id=" + id +
                 ", kcalPerGram=" + kcalPerGram +
                 ", yieldMinGrams=" + yieldMinGrams +
