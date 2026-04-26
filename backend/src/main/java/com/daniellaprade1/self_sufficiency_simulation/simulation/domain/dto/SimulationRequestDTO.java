@@ -4,5 +4,5 @@ import java.util.List;
 
 public record SimulationRequestDTO(
         double CalorieTarget,
-        List<CropInputDTO> crops
+        List<CropInputDTO> cropInputs
 ) {}

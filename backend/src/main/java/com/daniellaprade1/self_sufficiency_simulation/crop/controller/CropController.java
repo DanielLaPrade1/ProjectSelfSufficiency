@@ -1,6 +1,6 @@
 package com.daniellaprade1.self_sufficiency_simulation.crop.controller;
 
-import com.daniellaprade1.self_sufficiency_simulation.crop.dto.CropOptionDTO;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.CropOptionDTO;
 import com.daniellaprade1.self_sufficiency_simulation.crop.service.CropService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/crop")
+@RequestMapping("/api/v1/crops")
 public class CropController {
 
     private final CropService cropService;

@@ -1,6 +1,6 @@
 package com.daniellaprade1.self_sufficiency_simulation.crop.service;
 
-import com.daniellaprade1.self_sufficiency_simulation.crop.dto.CropOptionDTO;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.CropOptionDTO;
 
 import java.util.List;
 
