@@ -1,58 +1,56 @@
 [
   {
     "name": "Potato",
-    "variety": "Gold",
     "species": "Solanum tuberosum",
+    "varieties": [
+      {
+        "name": "Gold",
+        "nutrition": {
+          "kcalPerGram": 0.75
+        },
+        "yield": {
+          "minGrams": 1134,
+          "maxGrams": 1814
+        }
+      },
+      {
+        "name": "Red",
+        "nutrition": {
+          "kcalPerGram": 0.73
+        },
 
-    "nutrition": {
-      "kcalPerGram": 0.75
-    },
+        "yield": {
+          "yieldMinGrams": 907,
+          "yieldMaxGrams": 1588
+        }
+      },
+      {
+        "name": "Russet",
+        "nutrition": {
+          "kcalPerGram": 0.81
+        },
 
-    "yield": {
-      "yieldMinGrams": 1134,
-      "yieldMaxGrams": 1814
-    }
-  },
-  {
-    "name": "Potato",
-    "variety": "Red",
-    "species": "Solanum tuberosum",
-
-    "nutrition": {
-      "kcalPerGram": 0.73
-    },
-
-    "yield": {
-      "yieldMinGrams": 907,
-      "yieldMaxGrams": 1588
-    }
-  },
-  {
-    "name": "Potato",
-    "variety": "Russet",
-    "species": "Solanum tuberosum",
-
-    "nutrition": {
-      "kcalPerGram": 0.81
-    },
-
-    "yield": {
-      "yieldMinGrams": 1361,
-      "yieldMaxGrams": 2268
-    }
+        "yield": {
+          "yieldMinGrams": 1361,
+          "yieldMaxGrams": 2268
+        }
+      }
+    ]
   },
   {
     "name": "Tomato",
-    "variety": "Roma",
     "species": " Solanum lycopersicum",
-
-    "nutrition": {
-      "kcalPerGram": 0.19
-    },
-
-    "yield": {
-      "yieldMinGrams": 6803,
-      "yieldMaxGrams": 13607
-    }
+    "varieties": [
+      {
+        "name": "Roma",
+        "nutrition": {
+          "kcalPerGram": 0.19
+        },
+        "yield": {
+          "yieldMinGrams": 6803,
+          "yieldMaxGrams": 13607
+        }
+      }
+    ]
   }
 ]
