@@ -22,5 +22,4 @@ public class CropController {
     public List<CropOptionDTO> getAll() {
         return cropService.getAllCropOptions();
     }
-
 }

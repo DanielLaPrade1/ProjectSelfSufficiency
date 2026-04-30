@@ -1,3 +1,7 @@
 spring:
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baseline-on-migrate: true
   application:
     name: self_sufficiency_simulation

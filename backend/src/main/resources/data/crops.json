@@ -18,7 +18,6 @@
         "nutrition": {
           "kcalPerGram": 0.73
         },
-
         "yield": {
           "yieldMinGrams": 907,
           "yieldMaxGrams": 1588
@@ -29,7 +28,6 @@
         "nutrition": {
           "kcalPerGram": 0.81
         },
-
         "yield": {
           "yieldMinGrams": 1361,
           "yieldMaxGrams": 2268
