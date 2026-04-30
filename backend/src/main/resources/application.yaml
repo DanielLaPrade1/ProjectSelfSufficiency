@@ -1,7 +1,18 @@
 spring:
+  application:
+    name: self_sufficiency_simulation
+
   flyway:
     enabled: true
     locations: classpath:db/migration
     baseline-on-migrate: true
-  application:
-    name: self_sufficiency_simulation
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/cropdb
+    username: ${DB_USER}
+    password: ${DB_PW}
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
