@@ -3,17 +3,18 @@ package com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Entity
 public class VarietyProfile {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
-    private float kcalPerGram;
-    private int yieldMinGrams;
-    private int yieldMaxGrams;
+    private Float kcalPerGram;
+    private Double yieldMinGrams;
+    private Double yieldMaxGrams;
 
     @OneToOne
     @JoinColumn(name = "variety")
@@ -22,7 +23,7 @@ public class VarietyProfile {
     public VarietyProfile() {
     }
 
-    public VarietyProfile(Long id, float kcalPerGram, int yieldMinGrams, int yieldMaxGrams, Variety variety) {
+    public VarietyProfile(UUID id, Float kcalPerGram, Double yieldMinGrams, Double yieldMaxGrams, Variety variety) {
         this.id = id;
         this.kcalPerGram = kcalPerGram;
         this.yieldMinGrams = yieldMinGrams;
@@ -30,11 +31,11 @@ public class VarietyProfile {
         this.variety = variety;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -46,19 +47,19 @@ public class VarietyProfile {
         this.kcalPerGram = kcalPerGram;
     }
 
-    public int getYieldMinGrams() {
+    public Double getYieldMinGrams() {
         return yieldMinGrams;
     }
 
-    public void setYieldMinGrams(int yieldMinGrams) {
+    public void setYieldMinGrams(Double yieldMinGrams) {
         this.yieldMinGrams = yieldMinGrams;
     }
 
-    public int getYieldMaxGrams() {
+    public Double getYieldMaxGrams() {
         return yieldMaxGrams;
     }
 
-    public void setYieldMaxGrams(int yieldMaxGrams) {
+    public void setYieldMaxGrams(Double yieldMaxGrams) {
         this.yieldMaxGrams = yieldMaxGrams;
     }
 
