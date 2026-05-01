@@ -9,7 +9,6 @@ import java.util.UUID;
 
 @Entity
 public class Crop {
-
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
@@ -25,6 +24,12 @@ public class Crop {
 
     public Crop(UUID id, String name, String species, List<Variety> varieties) {
         this.id = id;
+        this.name = name;
+        this.species = species;
+        this.varieties = varieties;
+    }
+
+    public Crop(String name, String species, List<Variety> varieties) {
         this.name = name;
         this.species = species;
         this.varieties = varieties;

@@ -6,11 +6,13 @@ import jakarta.validation.constraints.NotNull;
 
 public record VarietyImportDTO(
 
-        @NotBlank(message = "Variety name is required")
+        @NotBlank(message = "name is required")
         String name,
 
-        @NotNull(message = "varietyProfile is required")
+        @NotNull(message = "nutrition is required")
         @Valid
-        VarietyProfileImportDTO varietyProfile
+        NutritionImportDTO nutrition,
 
+        @NotNull(message = "yield is required")
+        YieldImportDTO yield
 ) {}

@@ -10,8 +10,8 @@ public record CropImportDTO(
         @NotBlank(message = "Crop name is required")
         String name,
 
-        @NotBlank(message = "Crop category is required")
-        String category,
+        @NotBlank(message = "Crop species is required")
+        String species,
 
         @NotEmpty(message = "At least one variety is required")
         @Valid
