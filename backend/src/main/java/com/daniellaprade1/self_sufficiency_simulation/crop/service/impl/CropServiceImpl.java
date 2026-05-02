@@ -1,6 +1,8 @@
 package com.daniellaprade1.self_sufficiency_simulation.crop.service.impl;
 
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.CropOptionDTO;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.CropImportDTO;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.VarietyImportDTO;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Crop;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Variety;
 import com.daniellaprade1.self_sufficiency_simulation.crop.repository.CropRepository;
@@ -15,11 +17,9 @@ import java.util.UUID;
 public class CropServiceImpl implements CropService {
 
     private final CropRepository cropRepository;
-    private final VarietyRepository varietyRepository;
 
-    public CropServiceImpl(CropRepository cropRepository, VarietyRepository varietyRepository) {
+    public CropServiceImpl(CropRepository cropRepository) {
         this.cropRepository = cropRepository;
-        this.varietyRepository = varietyRepository;
     }
 
     // Unimplemented
@@ -29,12 +29,19 @@ public class CropServiceImpl implements CropService {
     }
 
     @Override
-    public Crop findOrCreateCrop(String name, String species, List<Variety> varieties) {
-        return cropRepository.findByName(name)
+    public Crop createOrUpdateCrop(CropImportDTO cropImportDTO) {
+        return cropRepository.findByName(cropImportDTO.name())
+                .map(existing -> {
+                    // UPDATE
+                    existing.setSpecies(cropImportDTO.species());
+                    return existing;
+                })
                 .orElseGet(() -> {
-                    return new Crop(name, species, varieties);
+                    // CREATE
+                    Crop crop = new Crop();
+                    crop.setName(cropImportDTO.name());
+                    crop.setSpecies(cropImportDTO.species());
+                    return cropRepository.save(crop);
                 });
     }
-
-
 }

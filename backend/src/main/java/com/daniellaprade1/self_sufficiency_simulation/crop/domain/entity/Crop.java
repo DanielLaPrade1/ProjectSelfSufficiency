@@ -29,12 +29,6 @@ public class Crop {
         this.varieties = varieties;
     }
 
-    public Crop(String name, String species, List<Variety> varieties) {
-        this.name = name;
-        this.species = species;
-        this.varieties = varieties;
-    }
-
     public UUID getId() {
         return id;
     }
