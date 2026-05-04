@@ -16,7 +16,6 @@ public class CropMapperImpl implements CropMapper {
         VarietyProfile varietyProfile = variety.getProfile();
 
         return new CropOptionDTO(
-                variety.getId(),
                 crop.getName(),
                 crop.getSpecies(),
                 variety.getName(),

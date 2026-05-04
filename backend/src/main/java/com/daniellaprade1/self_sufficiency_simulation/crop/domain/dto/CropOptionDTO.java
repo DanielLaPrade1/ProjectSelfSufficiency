@@ -1,13 +1,10 @@
 package com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
-import java.util.UUID;
 
 public record CropOptionDTO(
-
-        @NotNull(message = "varietyID is required")
-        UUID varietyID,
 
         @NotBlank(message = "cropName is required")
         @Size(max = 100, message = "cropName must be less than 100 characters")
@@ -36,6 +33,7 @@ public record CropOptionDTO(
 ) {
 
     @AssertTrue(message = "yieldMaxGrams must be greater than or equal to yieldMinGrams")
+    @JsonIgnore
     public boolean isYieldRangeValid() {
         return yieldMaxGrams >= yieldMinGrams;
     }
