@@ -1,14 +1,13 @@
 package com.daniellaprade1.self_sufficiency_simulation.crop.service.impl;
 
-import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.CropImportDTO;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.VarietyImportDTO;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Crop;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Variety;
 import com.daniellaprade1.self_sufficiency_simulation.crop.repository.VarietyRepository;
 import com.daniellaprade1.self_sufficiency_simulation.crop.service.VarietyService;
+import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
+@Service
 public class VarietyServiceImpl implements VarietyService {
 
     private final VarietyRepository varietyRepository;
@@ -23,9 +22,11 @@ public class VarietyServiceImpl implements VarietyService {
                 .orElseGet(() -> {
                     // CREATE
                     Variety variety = new Variety();
+
                     variety.setCrop(crop);
                     variety.setName(varietyImportDTO.name());
-                    return variety;
+
+                    return varietyRepository.save(variety);
                 });
     }
 }

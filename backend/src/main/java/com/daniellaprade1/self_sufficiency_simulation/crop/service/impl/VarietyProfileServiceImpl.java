@@ -6,7 +6,9 @@ import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Variety
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.VarietyProfile;
 import com.daniellaprade1.self_sufficiency_simulation.crop.repository.VarietyProfileRepository;
 import com.daniellaprade1.self_sufficiency_simulation.crop.service.VarietyProfileService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class VarietyProfileServiceImpl implements VarietyProfileService {
 
     private final VarietyProfileRepository varietyProfileRepository;
@@ -30,6 +32,7 @@ public class VarietyProfileServiceImpl implements VarietyProfileService {
                 }, () -> {
                     // CREATE
                     VarietyProfile profile = new VarietyProfile();
+
                     profile.setVariety(variety);
                     profile.setKcalPerGram(nutritionImportDTO.kcalPerGram());
                     profile.setYieldMinGrams(yieldImportDTO.minGrams());

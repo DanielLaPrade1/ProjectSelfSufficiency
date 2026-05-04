@@ -9,9 +9,11 @@ import com.daniellaprade1.self_sufficiency_simulation.crop.service.CropService;
 import com.daniellaprade1.self_sufficiency_simulation.crop.service.VarietyProfileService;
 import com.daniellaprade1.self_sufficiency_simulation.crop.service.VarietyService;
 import com.daniellaprade1.self_sufficiency_simulation.infra.importer.JsonCropImporter;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class CropImportServiceImpl implements CropImportService {
 
     private final JsonCropImporter importer;
@@ -34,7 +36,7 @@ public class CropImportServiceImpl implements CropImportService {
 
     @Override
     public void importCropsFromJson(String path) {
-        List<CropImportDTO> crops = importer.loadFromClasspath("data/crops.json");
+        List<CropImportDTO> crops = importer.loadFromClasspath(path);
         upsertCropTree(crops);
     }
 

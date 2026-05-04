@@ -17,7 +17,7 @@ public class VarietyProfile {
     private Double yieldMaxGrams;
 
     @OneToOne
-    @JoinColumn(name = "variety")
+    @JoinColumn(name = "variety_id")
     private Variety variety;
 
     public VarietyProfile() {
