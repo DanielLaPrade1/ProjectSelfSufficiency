@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
 class JsonCropImporterTest {
 
     private final JsonCropImporter importer;
@@ -23,7 +24,6 @@ class JsonCropImporterTest {
     }
 
 
-    @Test
     void shouldLoadAndParseJsonFromClasspath() {
         List<CropImportDTO> result = importer.loadFromClasspath("/data/crops_test.json");
 

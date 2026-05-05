@@ -1,25 +1,48 @@
 package com.daniellaprade1.self_sufficiency_simulation.simulation.service.impl;
 
-import com.daniellaprade1.self_sufficiency_simulation.crop.repository.VarietyProfileRepository;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Variety;
+import com.daniellaprade1.self_sufficiency_simulation.crop.repository.VarietyRepository;
+import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.SimulationCropData;
+import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.CropInputDTO;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.SimulationRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.SimulationResponseDTO;
+import com.daniellaprade1.self_sufficiency_simulation.simulation.engine.impl.SimulationEngineImpl;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.service.SimulationService;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class SimulationServiceImpl implements SimulationService {
 
-    private final VarietyProfileRepository varietyProfileRepository;
+    private final VarietyRepository varietyRepository;
+    private final SimulationEngineImpl simulationEngine;
 
-    public SimulationServiceImpl(VarietyProfileRepository varietyProfileRepository) {
-        this.varietyProfileRepository = varietyProfileRepository;
+    public SimulationServiceImpl(VarietyRepository varietyRepository, SimulationEngineImpl simulationEngine) {
+        this.varietyRepository = varietyRepository;
+        this.simulationEngine = simulationEngine;
     }
 
-    // Unimplemented
     @Override
     public SimulationResponseDTO runSimulation(SimulationRequestDTO request) {
-        // SimulationRequestDTO + CropProfile -> SimulationCropData
-        // SimulationCropData -> SimulationEngine
-        return null;
+        List<SimulationCropData> cropData = request.cropInputs()
+                .stream()
+                .map(this::toSimulationCropData).toList();
+
+        return simulationEngine.run(cropData, request.calorieTarget());
+    }
+
+    @Override
+    public SimulationCropData toSimulationCropData(CropInputDTO input) {
+        Variety variety = varietyRepository.findById(input.varietyId())
+                .orElseThrow(() -> new IllegalArgumentException("Invalid VarietyID"));
+
+        return new SimulationCropData(
+                input.units(),
+                variety.getProfile().getKcalPerGram(),
+                variety.getProfile().getYieldMinGrams(),
+                variety.getProfile().getYieldMaxGrams()
+        );
+
     }
 }

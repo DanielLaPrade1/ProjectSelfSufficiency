@@ -4,7 +4,12 @@ package com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 
+import java.util.UUID;
+
 public record CropOptionDTO(
+
+        @NotBlank(message = "varietyID is required")
+        UUID varietyID,
 
         @NotBlank(message = "cropName is required")
         @Size(max = 100, message = "cropName must be less than 100 characters")
@@ -20,7 +25,7 @@ public record CropOptionDTO(
 
         @NotNull(message = "kcalPerGram is required")
         @Positive(message = "kcalPerGram must be greater than 0")
-        Float kcalPerGram,
+        Double kcalPerGram,
 
         @NotNull(message = "yieldMinGrams is required")
         @PositiveOrZero(message = "yieldMinGrams must be >= 0")

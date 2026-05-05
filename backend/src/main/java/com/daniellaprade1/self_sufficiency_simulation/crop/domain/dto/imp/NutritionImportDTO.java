@@ -6,5 +6,5 @@ import jakarta.validation.constraints.NotNull;
 public record NutritionImportDTO(
         @NotNull(message = "kcalPerGram is required")
         @DecimalMin(value = "0.0", inclusive = false, message = "kcalPerGram must be > 0")
-        Float kcalPerGram
+        Double kcalPerGram
 ) {}

@@ -2,5 +2,5 @@ package com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto;
 
 public record SimulationResponseDTO(
         Double caloriesProduced,
-        Float selfSufficiencyPercentage
+        Double selfSufficiencyPercentage
 ) {}

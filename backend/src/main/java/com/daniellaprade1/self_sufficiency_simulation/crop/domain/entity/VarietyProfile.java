@@ -12,7 +12,7 @@ public class VarietyProfile {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Float kcalPerGram;
+    private Double kcalPerGram;
     private Double yieldMinGrams;
     private Double yieldMaxGrams;
 
@@ -23,7 +23,7 @@ public class VarietyProfile {
     public VarietyProfile() {
     }
 
-    public VarietyProfile(UUID id, Float kcalPerGram, Double yieldMinGrams, Double yieldMaxGrams, Variety variety) {
+    public VarietyProfile(UUID id, Double kcalPerGram, Double yieldMinGrams, Double yieldMaxGrams, Variety variety) {
         this.id = id;
         this.kcalPerGram = kcalPerGram;
         this.yieldMinGrams = yieldMinGrams;
@@ -39,11 +39,11 @@ public class VarietyProfile {
         this.id = id;
     }
 
-    public float getKcalPerGram() {
+    public Double getKcalPerGram() {
         return kcalPerGram;
     }
 
-    public void setKcalPerGram(float kcalPerGram) {
+    public void setKcalPerGram(Double kcalPerGram) {
         this.kcalPerGram = kcalPerGram;
     }
 

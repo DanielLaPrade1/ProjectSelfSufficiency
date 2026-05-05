@@ -18,7 +18,7 @@ public class SimulationController {
         this.simulationService = simulationService;
     }
 
-    @PostMapping("run")
+    @PostMapping("/run")
     public SimulationResponseDTO runSimulation(@RequestBody SimulationRequestDTO request) {
         return simulationService.runSimulation(request);
     }

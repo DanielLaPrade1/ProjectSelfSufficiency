@@ -1,7 +1,7 @@
 package com.daniellaprade1.self_sufficiency_simulation.simulation.domain;
 
 public record SimulationCropData(
-        Double landArea,
+        Double units,
         Double kcalPerGram,
         Double yieldMin,
         Double yieldMax
