@@ -6,7 +6,7 @@ import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.Simulati
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.CropInputDTO;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.SimulationRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.SimulationResponseDTO;
-import com.daniellaprade1.self_sufficiency_simulation.simulation.engine.impl.SimulationEngineImpl;
+import com.daniellaprade1.self_sufficiency_simulation.simulation.engine.SimulationEngine;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.service.SimulationService;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +16,9 @@ import java.util.List;
 public class SimulationServiceImpl implements SimulationService {
 
     private final VarietyRepository varietyRepository;
-    private final SimulationEngineImpl simulationEngine;
+    private final SimulationEngine simulationEngine;
 
-    public SimulationServiceImpl(VarietyRepository varietyRepository, SimulationEngineImpl simulationEngine) {
+    public SimulationServiceImpl(VarietyRepository varietyRepository, SimulationEngine simulationEngine) {
         this.varietyRepository = varietyRepository;
         this.simulationEngine = simulationEngine;
     }

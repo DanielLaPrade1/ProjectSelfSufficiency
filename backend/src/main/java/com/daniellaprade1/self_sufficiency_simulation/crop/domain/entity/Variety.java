@@ -25,6 +25,13 @@ public class Variety {
     public Variety() {
     }
 
+    public Variety(UUID id, String name, Crop crop, VarietyProfile profile) {
+        this.id = id;
+        this.name = name;
+        this.crop = crop;
+        this.profile = profile;
+    }
+
     public UUID getId() {
         return id;
     }

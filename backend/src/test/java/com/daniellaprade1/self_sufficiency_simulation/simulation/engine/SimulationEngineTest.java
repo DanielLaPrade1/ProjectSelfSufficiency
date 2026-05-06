@@ -19,15 +19,18 @@ public class SimulationEngineTest {
 
     @Test
     void shouldCalculateCaloriesCorrectly() {
+        // Arrange
         List<SimulationCropData> crops = List.of(
                 new SimulationCropData(100.0, 0.1, 10d, 30d)
         );
 
+        // Act
         SimulationResponseDTO result = simulationEngine.run(crops, 200.0);
 
+        // Assert
         // avg yield = (10 + 30) / 2 = 20
         // calories per unit = 0.1 * 20 = 2
-        // total calories = 100 * 2 = 2000
+        // total calories = 100 * 2 = 200
         assertEquals(200, result.caloriesProduced());
     }
 }

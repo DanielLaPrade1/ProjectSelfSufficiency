@@ -23,7 +23,7 @@ class JsonCropImporterTest {
         this.importer = new JsonCropImporter(parser);
     }
 
-
+    @Test
     void shouldLoadAndParseJsonFromClasspath() {
         List<CropImportDTO> result = importer.loadFromClasspath("/data/crops_test.json");
 
@@ -51,14 +51,14 @@ class JsonCropImporterTest {
         NutritionImportDTO goldNutrition = gold.nutrition();
         YieldImportDTO goldYield = gold.yield();
 
-        assertThat(goldNutrition.kcalPerGram()).isEqualTo(0.75f);
+        assertThat(goldNutrition.kcalPerGram()).isEqualTo(0.75);
         assertThat(goldYield.minGrams()).isEqualTo(1134);
         assertThat(goldYield.maxGrams()).isEqualTo(1814);
 
         NutritionImportDTO redNutrition = red.nutrition();
         YieldImportDTO redYield = red.yield();
 
-        assertThat(redNutrition.kcalPerGram()).isEqualTo(0.73f);
+        assertThat(redNutrition.kcalPerGram()).isEqualTo(0.73);
         assertThat(redYield.minGrams()).isEqualTo(907);
         assertThat(redYield.maxGrams()).isEqualTo(1588);
 
