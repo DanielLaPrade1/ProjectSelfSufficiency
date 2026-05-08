@@ -23,6 +23,9 @@ public record CropOptionDTO(
         @Size(max = 100, message = "varietyName must be less than 100 characters")
         String varietyName,
 
+        @NotBlank(message = "varietyImage is required")
+        String varietyImageUrl,
+
         @NotNull(message = "kcalPerGram is required")
         @Positive(message = "kcalPerGram must be greater than 0")
         Double kcalPerGram,

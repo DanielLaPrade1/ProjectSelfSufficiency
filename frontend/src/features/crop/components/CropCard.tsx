@@ -3,19 +3,24 @@ type CropCardProps = {
   cropImage: string;
   varietyName: string;
   cropName: string;
-  maxWidth?: string;
 };
 
-export default function CropCard({
+export function CropCard({
   backgroundImage,
   cropImage,
   varietyName,
   cropName,
-  maxWidth = "",
 }: CropCardProps) {
   return (
     <div
-      className={`relative aspect-square w-full overflow-hidden rounded-[10%] ${maxWidth}`}
+      className="
+        @container
+        relative
+        aspect-square
+        w-full
+        overflow-hidden
+        rounded-[10%]
+      "
     >
       {/* Background */}
       <img
@@ -24,22 +29,17 @@ export default function CropCard({
         className="absolute inset-0 h-full w-full object-cover"
       />
 
-      {/* Overlays */}
-      <div className="absolute inset-0 bg-black/45" />
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/30" />
-
       {/* Content */}
       <div className="relative flex h-full flex-col items-center">
         {/* Crop Image */}
-        <div className="flex justify-center w-full pt-[5%]">
+        <div className="flex w-full justify-center pt-[2%]">
           <img
             src={cropImage}
-            alt={cropName}
+            alt={`${cropName} ${varietyName}`}
             className="
-              w-[100%]
-              h-[100%]
+              h-full
+              w-full
               object-contain
-              drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]
               transition-transform
               duration-300
               hover:scale-105
@@ -48,25 +48,17 @@ export default function CropCard({
         </div>
 
         {/* Text */}
-        <div className="text-center mt-auto pb-[8%]">
+        <div className="mt-auto pb-[2%] text-center">
           <h2
-            className="
-              text-white
-              font-black
-              leading-none
-              tracking-tight
-              text-[clamp(1rem,15vw,12rem)]
-            "
+            className="text-white font-black leading-none tracking-tight text-shadow-2xl"
+            style={{ fontSize: "clamp(0.6rem, 21cqw, 3.75rem)" }}
           >
             {varietyName}
           </h2>
 
           <p
-            className="
-              text-white/90
-              font-bold
-              text-[clamp(0.45rem,7vw,7rem)]
-            "
+            className="text-white/90 font-bold text-shadow-2xl"
+            style={{ fontSize: "clamp(0.45rem, 12cqw, 2.25rem)" }}
           >
             {cropName}
           </p>

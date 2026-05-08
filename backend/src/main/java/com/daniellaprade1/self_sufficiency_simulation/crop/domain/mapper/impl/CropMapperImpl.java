@@ -15,11 +15,17 @@ public class CropMapperImpl implements CropMapper {
         Crop crop = variety.getCrop();
         VarietyProfile varietyProfile = variety.getProfile();
 
+        String varietyImageUrl = "/images/crop"
+                + "/" + crop.getName().toLowerCase()
+                + "/" + variety.getName().toLowerCase()
+                + "-logo.svg";
+
         return new CropOptionDTO(
                 variety.getId(),
                 crop.getName(),
                 crop.getSpecies(),
                 variety.getName(),
+                varietyImageUrl,
                 varietyProfile.getKcalPerGram(),
                 varietyProfile.getYieldMinGrams(),
                 varietyProfile.getYieldMaxGrams()
