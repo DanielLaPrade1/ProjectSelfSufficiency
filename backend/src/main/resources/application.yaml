@@ -2,6 +2,9 @@ spring:
   application:
     name: self_sufficiency_simulation
 
+  config:
+    import: "optional:file:../.env[.properties]"
+
   flyway:
     enabled: true
     locations: classpath:db/migration
@@ -9,8 +12,8 @@ spring:
 
   datasource:
     url: jdbc:postgresql://localhost:5432/cropdb
-    username: ${DB_USER}
-    password: ${DB_PW}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PW}
 
   jpa:
     hibernate:
