@@ -1,6 +1,7 @@
 import { CropCard, CropGrid, useCrops } from "../features/crop";
+import { SimulationForm } from "../features/simulation/components/SimulationForm";
 
-export default function HomePage() {
+export default function SimulationFormPage() {
   const { data: crops, isLoading, error } = useCrops();
 
   if (isLoading) {
@@ -24,6 +25,7 @@ export default function HomePage() {
           />
         ))}
       </CropGrid>
+      <SimulationForm />
     </div>
   );
 }

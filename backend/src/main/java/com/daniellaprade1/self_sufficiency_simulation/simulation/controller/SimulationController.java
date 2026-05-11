@@ -3,6 +3,9 @@ package com.daniellaprade1.self_sufficiency_simulation.simulation.controller;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.SimulationRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.SimulationResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.service.SimulationService;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,9 @@ public class SimulationController {
     }
 
     @PostMapping("/run")
-    public SimulationResponseDTO runSimulation(@RequestBody SimulationRequestDTO request) {
-        return simulationService.runSimulation(request);
+    public ResponseEntity<SimulationResponseDTO> runSimulation(
+            @Valid @RequestBody SimulationRequestDTO request
+    ) {
+        return new ResponseEntity<>(simulationService.runSimulation(request), HttpStatus.ACCEPTED);
     }
 }
