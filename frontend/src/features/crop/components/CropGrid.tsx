@@ -13,7 +13,7 @@ export function CropGrid({
 }: CropGridProps) {
   return (
     <div
-      className="grid w-full p-2"
+      className="grid w-full"
       style={{
         gridTemplateColumns: `repeat(auto-fit, minmax(${minCardWidth}, 1fr))`,
         gap,

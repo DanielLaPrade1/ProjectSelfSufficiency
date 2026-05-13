@@ -34,12 +34,16 @@ export function CropCard({
     }
   }, [cardState]);
 
+  // onQuantityChange only triggered when
+
   const handleCardClick = () => {
     if (cardState === "default") {
       setCardState("entering-quantity");
     } else if (cardState === "selected") {
       setCardState("default");
+      onQuantityChange?.(0);
       setSavedQuantity(null);
+      onSelectedChange?.(false);
     }
   };
 
@@ -48,13 +52,14 @@ export function CropCard({
     if (!quantity.trim() || isNaN(parsed)) return;
     if (parsed === 0) {
       setCardState("default");
-      setSavedQuantity(null);
     } else {
       setCardState("selected");
       setSavedQuantity(parsed);
+      if (parsed !== savedQuantity) {
+        onQuantityChange?.(parsed);
+        onSelectedChange?.(true);
+      }
     }
-    onSelectedChange?.(true);
-    onQuantityChange?.(parsed);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -73,7 +78,7 @@ export function CropCard({
 
   return (
     <div
-      onClick={!isEnteringQuantity ? handleCardClick : undefined}
+      onClick={handleCardClick}
       className={`
         @container
         relative
@@ -153,7 +158,10 @@ export function CropCard({
           />
 
           <button
-            onClick={handleSave}
+            onClick={(e) => {
+              e.stopPropagation;
+              handleSave();
+            }}
             className="
               w-full
               rounded-lg

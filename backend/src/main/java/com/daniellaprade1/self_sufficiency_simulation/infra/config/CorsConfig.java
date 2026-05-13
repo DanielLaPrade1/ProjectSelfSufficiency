@@ -1,4 +1,4 @@
-package com.daniellaprade1.self_sufficiency_simulation.config;
+package com.daniellaprade1.self_sufficiency_simulation.infra.config;
 
 import org.jspecify.annotations.NonNull;
 import org.springframework.context.annotation.Bean;

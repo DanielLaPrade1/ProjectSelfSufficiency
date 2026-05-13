@@ -4,7 +4,7 @@ import com.daniellaprade1.self_sufficiency_simulation.crop.service.CropImportSer
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-@Component
+// @Component
 public class CropDataLoader implements CommandLineRunner {
 
     private final CropImportService service;
