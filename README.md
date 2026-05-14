@@ -28,18 +28,6 @@ Users of the application should be able to answer questions such as:
 
 ---
 
-# Architecture
-
-The application follows a client-server architecture:
-
-React Client
-     ↓
-Spring Boot REST API
-     ↓
-PostgreSQL Database
-
----
-
 ## Example Workflow
 
 A user inputs:
@@ -55,10 +43,10 @@ A user inputs:
   - Corn (4)
 
 The system processes inputs with agricultural data and returns:
-> **"You are 22% self-sufficient based on estimated yearly caloric production."**
-> **"Key Insights: High in Carbohydrates, Low in Protein"**
-> **"Crop Recomendations: Lentils, Carrots, Soybeans"**
-> **"Full Breakdown: ..."**
+> -**"You are 22% self-sufficient based on estimated yearly caloric production."**
+> -**"Key Insights: High in Carbohydrates, Low in Protein"**
+> -**"Crop Recomendations: Lentils, Carrots, Soybeans"**
+> -**"Full Breakdown: ..."**
 
 ---
 
