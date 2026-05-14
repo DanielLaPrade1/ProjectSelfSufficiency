@@ -6,7 +6,10 @@
       {
         "name": "Gold",
         "nutrition": {
-          "kcalPerGram": 0.75
+          "kcalPerGram": 0.75,
+          "proteinPerGram": 0.0181,
+          "totalFatPerGram": 0.0026,
+          "totalCarbsPerGram": 0.16
         },
         "yield": {
           "minGrams": 1134,
@@ -16,7 +19,10 @@
       {
         "name": "Red",
         "nutrition": {
-          "kcalPerGram": 0.73
+          "kcalPerGram": 0.73,
+          "proteinPerGram": 0.0206,
+          "totalFatPerGram": 0.0025,
+          "totalCarbsPerGram": 0.163
         },
         "yield": {
           "minGrams": 907,
@@ -26,7 +32,10 @@
       {
         "name": "Russet",
         "nutrition": {
-          "kcalPerGram": 0.81
+          "kcalPerGram": 0.81,
+          "proteinPerGram": 0.0227,
+          "totalFatPerGram": 0.0036,
+          "totalCarbsPerGram": 0.178
         },
         "yield": {
           "minGrams": 1361,
@@ -37,12 +46,15 @@
   },
   {
     "name": "Tomato",
-    "species": " Solanum lycopersicum",
+    "species": "Solanum lycopersicum",
     "varieties": [
       {
         "name": "Roma",
         "nutrition": {
-          "kcalPerGram": 0.19
+          "kcalPerGram": 0.19,
+          "proteinPerGram": 0.007,
+          "totalFatPerGram": 0.0042,
+          "totalCarbsPerGram": 0.0384
         },
         "yield": {
           "minGrams": 6803,

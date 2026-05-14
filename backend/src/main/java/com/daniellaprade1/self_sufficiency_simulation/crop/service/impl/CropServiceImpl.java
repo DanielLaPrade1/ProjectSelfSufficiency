@@ -37,7 +37,8 @@ public class CropServiceImpl implements CropService {
                 .map(existing -> {
                     // UPDATE
                     existing.setSpecies(cropImportDTO.species());
-                    return existing;
+
+                    return cropRepository.save(existing);
                 })
                 .orElseGet(() -> {
                     // CREATE

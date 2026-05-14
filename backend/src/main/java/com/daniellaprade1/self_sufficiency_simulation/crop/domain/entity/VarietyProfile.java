@@ -12,22 +12,19 @@ public class VarietyProfile {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    private Double kcalPerGram;
-    private Double yieldMinGrams;
-    private Double yieldMaxGrams;
+    private Nutrition nutrition;
+    private Yield yield;
 
     @OneToOne
     @JoinColumn(name = "variety_id")
     private Variety variety;
 
-    public VarietyProfile() {
-    }
+    public VarietyProfile() {}
 
-    public VarietyProfile(UUID id, Double kcalPerGram, Double yieldMinGrams, Double yieldMaxGrams, Variety variety) {
+    public VarietyProfile(UUID id, Nutrition nutrition, Yield yield, Variety variety) {
         this.id = id;
-        this.kcalPerGram = kcalPerGram;
-        this.yieldMinGrams = yieldMinGrams;
-        this.yieldMaxGrams = yieldMaxGrams;
+        this.nutrition = nutrition;
+        this.yield = yield;
         this.variety = variety;
     }
 
@@ -39,29 +36,15 @@ public class VarietyProfile {
         this.id = id;
     }
 
-    public Double getKcalPerGram() {
-        return kcalPerGram;
+    public Nutrition getNutrition() {
+        return nutrition;
     }
 
-    public void setKcalPerGram(Double kcalPerGram) {
-        this.kcalPerGram = kcalPerGram;
-    }
+    public void setNutrition(Nutrition nutrition) {this.nutrition = nutrition;}
 
-    public Double getYieldMinGrams() {
-        return yieldMinGrams;
-    }
+    public Yield getYield() {return yield;}
 
-    public void setYieldMinGrams(Double yieldMinGrams) {
-        this.yieldMinGrams = yieldMinGrams;
-    }
-
-    public Double getYieldMaxGrams() {
-        return yieldMaxGrams;
-    }
-
-    public void setYieldMaxGrams(Double yieldMaxGrams) {
-        this.yieldMaxGrams = yieldMaxGrams;
-    }
+    public void setYield(Yield yield) {this.yield = yield;}
 
     public Variety getVariety() {
         return variety;
@@ -80,16 +63,15 @@ public class VarietyProfile {
 
     @Override
     public int hashCode() {
-        return 0;
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
         return "VarietyProfile{" +
                 "id=" + id +
-                ", kcalPerGram=" + kcalPerGram +
-                ", yieldMinGrams=" + yieldMinGrams +
-                ", yieldMaxGrams=" + yieldMaxGrams +
+                ", nutrition=" + nutrition +
+                ", yield=" + yield +
                 ", variety=" + variety +
                 '}';
     }

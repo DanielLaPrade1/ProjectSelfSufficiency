@@ -1,6 +1,8 @@
 package com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto;
 
 
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Nutrition;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Yield;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.validation.constraints.*;
 
@@ -26,23 +28,9 @@ public record CropOptionDTO(
         @NotBlank(message = "varietyImage is required")
         String varietyImageUrl,
 
-        @NotNull(message = "kcalPerGram is required")
-        @Positive(message = "kcalPerGram must be greater than 0")
-        Double kcalPerGram,
+        @NotNull(message = "nutrition is required")
+        Nutrition nutrition,
 
-        @NotNull(message = "yieldMinGrams is required")
-        @PositiveOrZero(message = "yieldMinGrams must be >= 0")
-        Double yieldMinGrams,
-
-        @NotNull(message = "yieldMaxGrams is required")
-        @Positive(message = "yieldMaxGrams must be greater than 0")
-        Double yieldMaxGrams
-
-) {
-
-    @AssertTrue(message = "yieldMaxGrams must be greater than or equal to yieldMinGrams")
-    @JsonIgnore
-    public boolean isYieldRangeValid() {
-        return yieldMaxGrams >= yieldMinGrams;
-    }
-}
+        @NotNull(message = "yield is required")
+        Yield yield
+) {}

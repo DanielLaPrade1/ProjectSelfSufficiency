@@ -1,9 +1,9 @@
 package com.daniellaprade1.self_sufficiency_simulation.infra.importer;
 
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.CropImportDTO;
-import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.NutritionImportDTO;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.NutritionDTO;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.VarietyImportDTO;
-import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.YieldImportDTO;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.YieldDTO;
 import com.daniellaprade1.self_sufficiency_simulation.infra.parser.CropJsonParser;
 import org.junit.jupiter.api.Test;
 import tools.jackson.databind.ObjectMapper;
@@ -48,15 +48,15 @@ class JsonCropImporterTest {
 
 
         // Variety Profiles (nutrition and yield)
-        NutritionImportDTO goldNutrition = gold.nutrition();
-        YieldImportDTO goldYield = gold.yield();
+        NutritionDTO goldNutrition = gold.nutrition();
+        YieldDTO goldYield = gold.yield();
 
         assertThat(goldNutrition.kcalPerGram()).isEqualTo(0.75);
         assertThat(goldYield.minGrams()).isEqualTo(1134);
         assertThat(goldYield.maxGrams()).isEqualTo(1814);
 
-        NutritionImportDTO redNutrition = red.nutrition();
-        YieldImportDTO redYield = red.yield();
+        NutritionDTO redNutrition = red.nutrition();
+        YieldDTO redYield = red.yield();
 
         assertThat(redNutrition.kcalPerGram()).isEqualTo(0.73);
         assertThat(redYield.minGrams()).isEqualTo(907);

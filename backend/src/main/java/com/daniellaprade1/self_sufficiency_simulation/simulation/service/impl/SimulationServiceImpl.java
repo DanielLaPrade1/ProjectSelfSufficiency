@@ -39,9 +39,9 @@ public class SimulationServiceImpl implements SimulationService {
 
         return new SimulationCropData(
                 input.units(),
-                variety.getProfile().getKcalPerGram(),
-                variety.getProfile().getYieldMinGrams(),
-                variety.getProfile().getYieldMaxGrams()
+                variety.getProfile().getNutrition().getKcalPerGram(),
+                variety.getProfile().getYield().getMinGrams(),
+                variety.getProfile().getYield().getMaxGrams()
         );
 
     }

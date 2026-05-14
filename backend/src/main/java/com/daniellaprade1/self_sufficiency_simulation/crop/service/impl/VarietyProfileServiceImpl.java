@@ -1,9 +1,11 @@
 package com.daniellaprade1.self_sufficiency_simulation.crop.service.impl;
 
-import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.NutritionImportDTO;
-import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.imp.YieldImportDTO;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.NutritionDTO;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.dto.YieldDTO;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Variety;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.VarietyProfile;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.mapper.NutritionMapper;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.mapper.YieldMapper;
 import com.daniellaprade1.self_sufficiency_simulation.crop.repository.VarietyProfileRepository;
 import com.daniellaprade1.self_sufficiency_simulation.crop.service.VarietyProfileService;
 import org.springframework.stereotype.Service;
@@ -12,35 +14,37 @@ import org.springframework.stereotype.Service;
 public class VarietyProfileServiceImpl implements VarietyProfileService {
 
     private final VarietyProfileRepository varietyProfileRepository;
+    private final NutritionMapper nutritionMapper;
+    private final YieldMapper yieldMapper;
 
-    public VarietyProfileServiceImpl(VarietyProfileRepository varietyProfileRepository) {
+    public VarietyProfileServiceImpl(VarietyProfileRepository varietyProfileRepository, NutritionMapper nutritionMapper, YieldMapper yieldMapper) {
         this.varietyProfileRepository = varietyProfileRepository;
+        this.nutritionMapper = nutritionMapper;
+        this.yieldMapper = yieldMapper;
     }
 
     @Override
     public void createOrUpdateVarietyProfile(
             Variety variety,
-            NutritionImportDTO nutritionImportDTO,
-            YieldImportDTO yieldImportDTO
+            NutritionDTO nutrition,
+            YieldDTO yield
     ) {
         varietyProfileRepository.findByVarietyId(variety.getId())
                 .ifPresentOrElse(existing -> {
                     // UPDATE
-                    existing.setKcalPerGram(nutritionImportDTO.kcalPerGram());
-                    existing.setYieldMinGrams(yieldImportDTO.minGrams());
-                    existing.setYieldMaxGrams(yieldImportDTO.maxGrams());
+                    existing.setNutrition(nutritionMapper.toEmbeddable(nutrition));
+                    existing.setYield(yieldMapper.toEmbeddable(yield));
+
+                    varietyProfileRepository.save(existing);
                 }, () -> {
                     // CREATE
                     VarietyProfile profile = new VarietyProfile();
 
                     profile.setVariety(variety);
-                    profile.setKcalPerGram(nutritionImportDTO.kcalPerGram());
-                    profile.setYieldMinGrams(yieldImportDTO.minGrams());
-                    profile.setYieldMaxGrams(yieldImportDTO.maxGrams());
+                    profile.setNutrition(nutritionMapper.toEmbeddable(nutrition));
+                    profile.setYield(yieldMapper.toEmbeddable(yield));
 
                     varietyProfileRepository.save(profile);
                 });
     }
-
-
 }

@@ -1,8 +1,10 @@
 package com.daniellaprade1.self_sufficiency_simulation.simulation.service;
 
 
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Nutrition;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Variety;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.VarietyProfile;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Yield;
 import com.daniellaprade1.self_sufficiency_simulation.crop.repository.VarietyRepository;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.SimulationCropData;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.CropInputDTO;
@@ -41,17 +43,31 @@ public class SimulationServiceTest {
         // Arrange
         UUID varietyID = UUID.randomUUID();
         double cropUnits = 10d;
+
         double kcalPerGram = 0.5;
-        double yieldMinGrams = 10d;
-        double yieldMaxGrams = 20d;
+        double proteinPerGram = 1;
+        double totalFatPerGram = 1;
+        double totalCarbsPerGram = 1;
+        Nutrition nutrition = new Nutrition(
+                kcalPerGram,
+                proteinPerGram,
+                totalFatPerGram,
+                totalCarbsPerGram
+        );
+
+        double minGrams = 10d;
+        double maxGrams = 20d;
+        Yield yield = new Yield(
+                minGrams,
+                maxGrams
+        );
 
         CropInputDTO input = new CropInputDTO(varietyID, cropUnits);
 
         VarietyProfile profile = new VarietyProfile(
                 UUID.randomUUID(),
-                kcalPerGram,
-                yieldMinGrams,
-                yieldMaxGrams,
+                nutrition,
+                yield,
                 null
         );
         Variety variety = new Variety(
@@ -68,8 +84,8 @@ public class SimulationServiceTest {
         // Assert
         assertEquals(cropUnits, result.units());
         assertEquals(kcalPerGram, result.kcalPerGram());
-        assertEquals(yieldMinGrams, result.yieldMin());
-        assertEquals(yieldMaxGrams, result.yieldMax());
+        assertEquals(minGrams, result.yieldMin());
+        assertEquals(maxGrams, result.yieldMax());
     }
 
     @Test
