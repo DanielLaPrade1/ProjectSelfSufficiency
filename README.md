@@ -1,82 +1,84 @@
-# Project Self Sufficiency: A tool for calculating food security
+# Project Self Sufficiency
 
-## Purpose
+A full-stack web application designed to model personal food production and estimate long-term food independence using crop yield, caloric, and nutrient data.
 
-A web application designed to help individuals understand how close they are to being self-sufficient in food production.
+The goal of the project is to combine agricultural modeling with scalable backend systems to provide actionable sustainability insights for gardeners, homesteaders, and small-scale producers.
 
-The application calculates a **self-sufficiency percentage** based on a variety of components related to gardening and homesteading. It gives users a clear, quantitative view of their food independence.
+Users of the application should be able to answer questions such as:
 
-Users of this app should be able to answer:
-
-- _Can I sustain myself with what I grow?_
-- _What crops / animals give me the most impact?_
-- _What am I missing?_
-
----
-
-## Tech Stack
-
-- **Backend**: Java, Spring Boot
-- **Frontend**: React
-- **Database**: PostgreSQL
-- **Build Tools**: Maven
+- _Can I sustain myself with what I currently grow?_
+- _Which crops contribute the most nutritional value?_
+- _What nutrient or caloric gaps exist in my system?_
+- _How can I improve my level of food self-sufficiency?_
 
 ---
 
-## Current Status
+# Tech Stack
 
-This project is in **early development (Phase 1)**.
+## Backend
+- Java
+- Spring Boot
+- Maven
 
-## Phase 1 Goals
+## Frontend
+- React
 
-Phase 1 focuses on building a functional full-stack application with the following features:
-
-### Frontend
-
-- Simple UI for entering:
-  - Daily calorie needs
-  - Crops grown
-  - Growing area
-- Display:
-  - Total calories produced
-  - Percentage of self-sufficiency (caloric)
-  - Breakdown by crop
-  - Suggestions
-
-### Backend
-
-- Crop data modeling
-- User input handling
-- Calorie production calculations
+## Database
+- PostgreSQL
 
 ---
 
-## Example
+# Architecture
+
+The application follows a client-server architecture:
+
+React Client
+     ↓
+Spring Boot REST API
+     ↓
+PostgreSQL Database
+
+---
+
+## Example Workflow
 
 A user inputs:
+- Personal attributes:
+  - Weight: 120 lbs
+  - Height: 5'7"
+  - Gender: Female
+- Daily calorie requirement (optional):
+  - 1700 calories
+- Crops grown:
+  - Potatoes (12)
+  - Beans (5)
+  - Corn (4)
 
-- Personal attributes: **120 lbs, 5'7", Female**
-- Daily calorie requirement: **1700**
-- Available growing space: **128 sqft**
-- Crops grown: **Potatoes, Beans, Corn**
+The system processes inputs with agricultural data and returns:
+> **"You are 22% self-sufficient based on estimated yearly caloric production."**
+> **"Key Insights: High in Carbohydrates, Low in Protein"**
+> **"Crop Recomendations: Lentils, Carrots, Soybeans"**
+> **"Full Breakdown: ..."**
 
-System output:
+---
 
-> **"You are 42% self-sufficient."**
+## Technical Challenges
+
+This project explores several backend and data-modeling challenges, including:
+
+- Translating agricultural production into caloric and nutrient metrics
+- Balancing estimated agricultural data with real-world variability
+- Supporting extensible calculations for crops, livestock, and environmental systems
+- Generating meaningful recommendations from incomplete datasets
 
 ---
 
-## Future
+## Current Development Focus
 
-Project Self Sufficiency aims to become more than just a calculator:
-
-- A **decision-making tool**
-- A **simulation platform**
-- A **personal sustainability dashboard**
-
----
+The current milestone focuses on building the foundational calculation engine and full-stack workflow for food self-sufficiency analysis.
 
 ## Notes
 
-- Early versions may use static or estimated agricultural data
-- Accuracy will improve over time as more variables are introduced
+- Early versions may use estimated or static agricultural datasets from a variety of sources
+- Accuracy and simulation complexity will improve over time, as more features will be introduced
+- The project is designed to support future expansion into larger sustainability and homesteading systems (animals, composting, etc.)
