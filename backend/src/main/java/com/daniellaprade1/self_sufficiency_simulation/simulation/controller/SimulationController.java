@@ -25,6 +25,7 @@ public class SimulationController {
     public ResponseEntity<SimulationResponseDTO> runSimulation(
             @Valid @RequestBody SimulationRequestDTO request
     ) {
-        return new ResponseEntity<>(simulationService.runSimulation(request), HttpStatus.ACCEPTED);
+        SimulationResponseDTO response = simulationService.runSimulation(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 }

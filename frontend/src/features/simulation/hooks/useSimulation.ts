@@ -7,6 +7,8 @@ export function useSimulation() {
   return {
     runSimulation: mutation.mutateAsync,
     isSimulating: mutation.isPending,
-    errorSimulating: mutation.isError
+    simulationError: mutation.error,
+    hasSimulationError: mutation.isError,
+    resetSimulation: mutation.reset,
   }
 }

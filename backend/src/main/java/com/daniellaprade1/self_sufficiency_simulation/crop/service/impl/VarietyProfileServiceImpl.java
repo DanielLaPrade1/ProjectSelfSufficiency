@@ -8,6 +8,7 @@ import com.daniellaprade1.self_sufficiency_simulation.crop.domain.mapper.Nutriti
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.mapper.YieldMapper;
 import com.daniellaprade1.self_sufficiency_simulation.crop.repository.VarietyProfileRepository;
 import com.daniellaprade1.self_sufficiency_simulation.crop.service.VarietyProfileService;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,6 +25,7 @@ public class VarietyProfileServiceImpl implements VarietyProfileService {
     }
 
     @Override
+    @Transactional
     public void createOrUpdateVarietyProfile(
             Variety variety,
             NutritionDTO nutrition,

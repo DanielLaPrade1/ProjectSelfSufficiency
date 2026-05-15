@@ -34,8 +34,6 @@ export function CropCard({
     }
   }, [cardState]);
 
-  // onQuantityChange only triggered when
-
   const handleCardClick = () => {
     if (cardState === "default") {
       setCardState("entering-quantity");

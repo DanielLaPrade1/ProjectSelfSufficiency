@@ -2,6 +2,7 @@ import type { CropInput, SimulationRequest, SimulationResponse } from "../type";
 import { CropCard, CropGrid, useCrops } from "../../crop";
 import React, { useState } from "react";
 import { useSimulation } from "../hooks/useSimulation";
+import axios from "axios";
 
 export function SimulationForm() {
   // Form Inputs
@@ -9,7 +10,11 @@ export function SimulationForm() {
   const [selectedCrops, setSelectedCrops] = useState<CropInput[]>([]);
 
   // Form Submit
-  const { runSimulation, isSimulating } = useSimulation();
+  const { runSimulation, isSimulating, simulationError, resetSimulation } =
+    useSimulation();
+  const [simulationResponse, setSimulationResponse] =
+    useState<SimulationResponse | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
 
   // Card Loading
   const {
@@ -24,8 +29,12 @@ export function SimulationForm() {
     return <p>Error loading crops.</p>;
   }
 
-  const handleSubmit = (e: React.SubmitEvent) => {
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
+
+    resetSimulation();
+    setSimulationResponse(null);
+    setFormError(null);
 
     const ct: number = Number(calorieTarget);
 
@@ -34,15 +43,13 @@ export function SimulationForm() {
       cropInputs: selectedCrops,
     };
 
-    const calorieOutput = document.getElementById("simulation-cal-prod");
-    const sssOutput = document.getElementById("simulation-sss");
-
-    runSimulation(req).then((res: SimulationResponse) => {
-      if (calorieOutput && sssOutput) {
-        calorieOutput.innerHTML = `Calories Produced: ${res.caloriesProduced.toFixed(2)}`;
-        sssOutput.innerHTML = `You Are ${(res.selfSufficiencyPercentage * 100).toFixed(2)}% Self Sufficient!`;
+    try {
+      setSimulationResponse(await runSimulation(req));
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        setFormError(err.response?.data?.message ?? "Simulation failed");
       }
-    });
+    }
   };
 
   const handleCropQuantityChange = (varietyId: string, quantity: number) => {
@@ -94,7 +101,6 @@ export function SimulationForm() {
                 onQuantityChange={(q) =>
                   handleCropQuantityChange(crop.varietyID, q)
                 }
-                onSelectedChange={(s) => console.log(s)}
               />
             ))}
           </CropGrid>
@@ -121,8 +127,17 @@ export function SimulationForm() {
           Run Simulation
         </button>
       </form>
-      <p id="simulation-cal-prod"></p>
-      <p id="simulation-sss"></p>
+      {simulationResponse && (
+        <div>
+          <p>Calories Produced: {simulationResponse.caloriesProduced}</p>
+          <p>
+            You are{" "}
+            {(simulationResponse.selfSufficiencyPercentage * 100).toFixed(2)}%
+            Self Sufficient
+          </p>
+        </div>
+      )}
+      {formError && <p>{formError}</p>}
     </div>
   );
 }
