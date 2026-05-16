@@ -1,20 +1,21 @@
 import type { CropInput, SimulationRequest, SimulationResponse } from "../type";
 import { CropCard, CropGrid, useCrops } from "../../crop";
 import React, { useState } from "react";
-import { useSimulation } from "../hooks/useSimulation";
-import axios from "axios";
+import type { UseMutationResult } from "@tanstack/react-query";
 
-export function SimulationForm() {
+interface SimulationFormProps {
+  simulationMutation: UseMutationResult<
+    SimulationResponse,
+    Error,
+    SimulationRequest,
+    unknown
+  >;
+}
+
+export function SimulationForm({ simulationMutation }: SimulationFormProps) {
   // Form Inputs
   const [calorieTarget, setCalorieTarget] = useState("");
   const [selectedCrops, setSelectedCrops] = useState<CropInput[]>([]);
-
-  // Form Submit
-  const { runSimulation, isSimulating, simulationError, resetSimulation } =
-    useSimulation();
-  const [simulationResponse, setSimulationResponse] =
-    useState<SimulationResponse | null>(null);
-  const [formError, setFormError] = useState<string | null>(null);
 
   // Card Loading
   const {
@@ -32,10 +33,6 @@ export function SimulationForm() {
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
-    resetSimulation();
-    setSimulationResponse(null);
-    setFormError(null);
-
     const ct: number = Number(calorieTarget);
 
     const req: SimulationRequest = {
@@ -43,13 +40,7 @@ export function SimulationForm() {
       cropInputs: selectedCrops,
     };
 
-    try {
-      setSimulationResponse(await runSimulation(req));
-    } catch (err) {
-      if (axios.isAxiosError(err)) {
-        setFormError(err.response?.data?.message ?? "Simulation failed");
-      }
-    }
+    await simulationMutation.mutateAsync(req);
   };
 
   const handleCropQuantityChange = (varietyId: string, quantity: number) => {
@@ -107,7 +98,7 @@ export function SimulationForm() {
         </div>
         <button
           type="submit"
-          disabled={isSimulating}
+          disabled={simulationMutation.isPending}
           className="
           rounded-2xl
           bg-blue-600
@@ -127,17 +118,6 @@ export function SimulationForm() {
           Run Simulation
         </button>
       </form>
-      {simulationResponse && (
-        <div>
-          <p>Calories Produced: {simulationResponse.caloriesProduced}</p>
-          <p>
-            You are{" "}
-            {(simulationResponse.selfSufficiencyPercentage * 100).toFixed(2)}%
-            Self Sufficient
-          </p>
-        </div>
-      )}
-      {formError && <p>{formError}</p>}
     </div>
   );
 }
