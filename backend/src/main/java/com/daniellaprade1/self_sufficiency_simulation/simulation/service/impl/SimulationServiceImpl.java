@@ -1,6 +1,8 @@
 package com.daniellaprade1.self_sufficiency_simulation.simulation.service.impl;
 
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Nutrition;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Variety;
+import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Yield;
 import com.daniellaprade1.self_sufficiency_simulation.crop.repository.VarietyRepository;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.SimulationCropData;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.CropInputDTO;
@@ -37,11 +39,17 @@ public class SimulationServiceImpl implements SimulationService {
         Variety variety = varietyRepository.findById(input.varietyId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid VarietyID"));
 
+        Nutrition varietyNutrition = variety.getProfile().getNutrition();
+        Yield varietyYield = variety.getProfile().getYield();
+
         return new SimulationCropData(
                 input.units(),
-                variety.getProfile().getNutrition().getKcalPerGram(),
-                variety.getProfile().getYield().getMinGrams(),
-                variety.getProfile().getYield().getMaxGrams()
+                varietyNutrition.getKcalPerGram(),
+                varietyNutrition.getProteinPerGram(),
+                varietyNutrition.getTotalFatPerGram(),
+                varietyNutrition.getTotalCarbsPerGram(),
+                varietyYield.getMinGrams(),
+                varietyYield.getMaxGrams()
         );
 
     }

@@ -6,6 +6,8 @@ import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Variety
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.VarietyProfile;
 import com.daniellaprade1.self_sufficiency_simulation.crop.domain.entity.Yield;
 import com.daniellaprade1.self_sufficiency_simulation.crop.repository.VarietyRepository;
+import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.NutritionMetric;
+import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.NutritionTotals;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.SimulationCropData;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.CropInputDTO;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.SimulationRequestDTO;
@@ -19,10 +21,7 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -100,7 +99,15 @@ public class SimulationServiceTest {
             CropInputDTO input = new CropInputDTO(UUID.randomUUID(), cropUnits);
             cropInputs.add(input);
             // Force mapping function to return dummy data
-            SimulationCropData mapped = new SimulationCropData(1d, 1d, 1d, 1d);
+            SimulationCropData mapped = new SimulationCropData(
+                    1d,
+                    1d,
+                    1d,
+                    1d,
+                    1d,
+                    1d,
+                    1d
+            );
             doReturn(mapped)
                     .when(simulationService)
                     .toSimulationCropData(input);
@@ -108,9 +115,13 @@ public class SimulationServiceTest {
         }
         SimulationRequestDTO request = new SimulationRequestDTO(calorieTarget, cropInputs);
 
+
         double caloriesProduced = 2000;
+        Map<NutritionMetric, Double> nutritionTotals = Map.of(NutritionMetric.CALORIES, caloriesProduced);
+
         double selfSufficiencyPercentage = 100;
-        SimulationResponseDTO expected = new SimulationResponseDTO(caloriesProduced, selfSufficiencyPercentage);
+
+        SimulationResponseDTO expected = new SimulationResponseDTO(new NutritionTotals(nutritionTotals), selfSufficiencyPercentage);
 
         when(simulationEngine.run(engineCropData, calorieTarget))
                 .thenReturn(expected);

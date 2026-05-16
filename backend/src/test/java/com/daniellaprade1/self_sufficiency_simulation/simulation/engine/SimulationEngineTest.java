@@ -1,5 +1,6 @@
 package com.daniellaprade1.self_sufficiency_simulation.simulation.engine;
 
+import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.NutritionMetric;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.SimulationCropData;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.domain.dto.SimulationResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.simulation.engine.impl.SimulationEngineImpl;
@@ -21,7 +22,7 @@ public class SimulationEngineTest {
     void shouldCalculateCaloriesCorrectly() {
         // Arrange
         List<SimulationCropData> crops = List.of(
-                new SimulationCropData(100.0, 0.1, 10d, 30d)
+                new SimulationCropData(100.0, 0.1, 0d, 0d, 0d, 10d, 30d)
         );
 
         // Act
@@ -31,6 +32,6 @@ public class SimulationEngineTest {
         // avg yield = (10 + 30) / 2 = 20
         // calories per unit = 0.1 * 20 = 2
         // total calories = 100 * 2 = 200
-        assertEquals(200, result.caloriesProduced());
+        assertEquals(200, result.nutritionTotals().get(NutritionMetric.CALORIES));
     }
 }
