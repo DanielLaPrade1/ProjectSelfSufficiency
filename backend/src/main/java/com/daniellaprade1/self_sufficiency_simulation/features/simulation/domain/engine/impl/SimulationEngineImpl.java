@@ -2,7 +2,8 @@ package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domai
 
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.NutritionMetric;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.NutritionTotalsDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.SimulationCropData;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.MacroDistribution;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.SimulationEngine;
 import org.springframework.stereotype.Component;
@@ -18,7 +19,7 @@ public class SimulationEngineImpl implements SimulationEngine {
     private static final int DAYS_PER_YEAR = 365;
 
     @Override
-    public SimulationResponseDTO run(List<SimulationCropData> cropData, Double dailyCalorieTarget) {
+    public SimulationResponseDTO run(List<CropData> cropData, MacroDistribution macroDistribution, Double dailyCalorieTarget) {
 
         Map<NutritionMetric, Double> nutritionTotals = new EnumMap<>(NutritionMetric.class);
         for (NutritionMetric metric : NutritionMetric.values()) {
@@ -26,7 +27,7 @@ public class SimulationEngineImpl implements SimulationEngine {
         }
 
         // Calculate all nutrition metrics for each crop
-        for (SimulationCropData crop : cropData) {
+        for (CropData crop : cropData) {
             for (NutritionMetric metric : NutritionMetric.values()) {
                 double totalValue = computeTotalNutritionMetricValuePerCrop(
                         crop,
@@ -44,7 +45,7 @@ public class SimulationEngineImpl implements SimulationEngine {
         return new SimulationResponseDTO(new NutritionTotalsDTO(nutritionTotals), selfSufficiencyPercentage);
     }
 
-    private double computeTotalNutritionMetricValuePerCrop(SimulationCropData crop, Double value) {
+    private double computeTotalNutritionMetricValuePerCrop(CropData crop, Double value) {
         double avgYield = (crop.yieldMin() + crop.yieldMax()) / 2;
         double valuePerUnit = avgYield * value;
         return valuePerUnit * crop.units();

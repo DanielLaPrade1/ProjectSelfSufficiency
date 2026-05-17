@@ -6,14 +6,17 @@ import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entit
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.VarietyProfile;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Yield;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.infra.persistence.VarietyRepository;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.MacroDistributionRequestDTO;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.MacroDistributionPreset;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.NutritionMetric;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.NutritionTotalsDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.SimulationCropData;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.CropInputDTO;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.CropRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.SimulationRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.impl.SimulationEngineImpl;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.service.impl.SimulationServiceImpl;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.service.impl.SimulationServiceImpl;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.MacroDistribution;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -61,7 +64,7 @@ public class SimulationServiceTest {
                 maxGrams
         );
 
-        CropInputDTO input = new CropInputDTO(varietyID, cropUnits);
+        CropRequestDTO input = new CropRequestDTO(varietyID, cropUnits);
 
         VarietyProfile profile = new VarietyProfile(
                 UUID.randomUUID(),
@@ -78,7 +81,7 @@ public class SimulationServiceTest {
         when(varietyRepository.findById(varietyID)).thenReturn(Optional.of(variety));
 
         // Act
-        SimulationCropData result = simulationService.toSimulationCropData(input);
+        CropData result = simulationService.toCropData(input);
 
         // Assert
         assertEquals(cropUnits, result.units());
@@ -93,13 +96,13 @@ public class SimulationServiceTest {
         double calorieTarget = 2000;
         double cropUnits = 20;
 
-        List<CropInputDTO> cropInputs = new ArrayList<>();
-        List<SimulationCropData> engineCropData = new ArrayList<>();
+        List<CropRequestDTO> cropInputs = new ArrayList<>();
+        List<CropData> engineCropData = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            CropInputDTO input = new CropInputDTO(UUID.randomUUID(), cropUnits);
+            CropRequestDTO input = new CropRequestDTO(UUID.randomUUID(), cropUnits);
             cropInputs.add(input);
             // Force mapping function to return dummy data
-            SimulationCropData mapped = new SimulationCropData(
+            CropData mapped = new CropData(
                     1d,
                     1d,
                     1d,
@@ -110,28 +113,28 @@ public class SimulationServiceTest {
             );
             doReturn(mapped)
                     .when(simulationService)
-                    .toSimulationCropData(input);
+                    .toCropData(input);
             engineCropData.add(mapped);
         }
-        SimulationRequestDTO request = new SimulationRequestDTO(calorieTarget, cropInputs);
+        MacroDistributionRequestDTO macroDistributionInput = new MacroDistributionRequestDTO(MacroDistributionPreset.KETO, null);
+        MacroDistribution engineDistribution = MacroDistributionPreset.KETO.getDistribution();
 
+        SimulationRequestDTO request = new SimulationRequestDTO(calorieTarget, cropInputs, macroDistributionInput);
 
         double caloriesProduced = 2000;
         Map<NutritionMetric, Double> nutritionTotals = Map.of(NutritionMetric.CALORIES, caloriesProduced);
-
         double selfSufficiencyPercentage = 100;
 
         SimulationResponseDTO expected = new SimulationResponseDTO(new NutritionTotalsDTO(nutritionTotals), selfSufficiencyPercentage);
 
-        when(simulationEngine.run(engineCropData, calorieTarget))
+        when(simulationEngine.run(engineCropData, engineDistribution, calorieTarget))
                 .thenReturn(expected);
 
         // Act
         SimulationResponseDTO result = simulationService.runSimulation(request);
 
         // Assert
-        verify(simulationEngine).run(engineCropData, calorieTarget);
+        verify(simulationEngine).run(engineCropData, engineDistribution, calorieTarget);
         assertEquals(expected, result);
     }
-
 }

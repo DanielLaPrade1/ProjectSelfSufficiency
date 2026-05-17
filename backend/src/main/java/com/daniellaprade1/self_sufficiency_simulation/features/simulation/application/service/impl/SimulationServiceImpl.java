@@ -1,15 +1,17 @@
-package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.service.impl;
+package com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.service.impl;
 
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Nutrition;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Variety;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Yield;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.infra.persistence.VarietyRepository;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.SimulationCropData;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.CropInputDTO;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.MacroDistributionRequestDTO;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.MacroDistribution;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.CropRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.SimulationRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.SimulationEngine;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.service.SimulationService;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.service.SimulationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,23 +29,26 @@ public class SimulationServiceImpl implements SimulationService {
 
     @Override
     public SimulationResponseDTO runSimulation(SimulationRequestDTO request) {
-        List<SimulationCropData> cropData = request.cropInputs()
+        List<CropData> cropData = request.cropRequests()
                 .stream()
-                .map(this::toSimulationCropData).toList();
+                .map(this::toCropData).toList();
 
-        return simulationEngine.run(cropData, request.calorieTarget());
+        MacroDistributionRequestDTO macroDistributionRequest = request.macroDistribution();
+        MacroDistribution macroDistribution = this.resolveMacroDistribution(macroDistributionRequest);
+
+        return simulationEngine.run(cropData, macroDistribution, request.calorieTarget());
     }
 
     @Override
-    public SimulationCropData toSimulationCropData(CropInputDTO input) {
-        Variety variety = varietyRepository.findById(input.varietyId())
+    public CropData toCropData(CropRequestDTO cropRequest) {
+        Variety variety = varietyRepository.findById(cropRequest.varietyId())
                 .orElseThrow(() -> new IllegalArgumentException("Invalid VarietyID"));
 
         Nutrition varietyNutrition = variety.getProfile().getNutrition();
         Yield varietyYield = variety.getProfile().getYield();
 
-        return new SimulationCropData(
-                input.units(),
+        return new CropData(
+                cropRequest.units(),
                 varietyNutrition.getKcalPerGram(),
                 varietyNutrition.getProteinPerGram(),
                 varietyNutrition.getTotalFatPerGram(),
@@ -51,6 +56,18 @@ public class SimulationServiceImpl implements SimulationService {
                 varietyYield.getMinGrams(),
                 varietyYield.getMaxGrams()
         );
+    }
 
+    public MacroDistribution resolveMacroDistribution(
+            MacroDistributionRequestDTO macroDistributionRequest
+    ) {
+        if (macroDistributionRequest.isPresetMode()) return macroDistributionRequest.preset().getDistribution();
+        else {
+            return new MacroDistribution(
+                    macroDistributionRequest.customDistribution().proteinPercent(),
+                    macroDistributionRequest.customDistribution().fatPercent(),
+                    macroDistributionRequest.customDistribution().carbsPercent()
+            );
+        }
     }
 }

@@ -1,10 +1,11 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine;
 
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.MacroDistributionPreset;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.NutritionMetric;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.SimulationCropData;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.SimulationEngine;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.impl.SimulationEngineImpl;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.MacroDistribution;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,12 +23,14 @@ public class SimulationEngineTest {
     @Test
     void shouldCalculateCaloriesCorrectly() {
         // Arrange
-        List<SimulationCropData> crops = List.of(
-                new SimulationCropData(100.0, 0.1, 0d, 0d, 0d, 10d, 30d)
+        List<CropData> crops = List.of(
+                new CropData(100.0, 0.1, 0d, 0d, 0d, 10d, 30d)
         );
 
+        MacroDistribution ketoDistribution = MacroDistributionPreset.KETO.getDistribution();
+
         // Act
-        SimulationResponseDTO result = simulationEngine.run(crops, 200.0);
+        SimulationResponseDTO result = simulationEngine.run(crops, ketoDistribution, 200.0);
 
         // Assert
         // avg yield = (10 + 30) / 2 = 20

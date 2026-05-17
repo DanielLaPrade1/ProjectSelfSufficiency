@@ -2,7 +2,7 @@ package com.daniellaprade1.self_sufficiency_simulation.features.simulation.web.c
 
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.SimulationRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.service.SimulationService;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.service.SimulationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

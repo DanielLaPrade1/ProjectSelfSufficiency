@@ -1,22 +1,22 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums;
 
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.SimulationCropData;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
 
 import java.util.function.ToDoubleFunction;
 
 public enum NutritionMetric {
-    CALORIES(SimulationCropData::kcalPerGram),
-    PROTEIN(SimulationCropData::proteinPerGram),
-    FAT(SimulationCropData::totalFatPerGram),
-    CARBS(SimulationCropData::totalCarbsPerGram);
+    CALORIES(CropData::kcalPerGram),
+    PROTEIN(CropData::proteinPerGram),
+    FAT(CropData::totalFatPerGram),
+    CARBS(CropData::totalCarbsPerGram);
 
-    private final ToDoubleFunction<SimulationCropData> extractor;
+    private final ToDoubleFunction<CropData> extractor;
 
-    NutritionMetric(ToDoubleFunction<SimulationCropData> extractor) {
+    NutritionMetric(ToDoubleFunction<CropData> extractor) {
         this.extractor = extractor;
     }
 
-    public double extract(SimulationCropData crop) {
+    public double extract(CropData crop) {
         return extractor.applyAsDouble(crop);
     }
 }

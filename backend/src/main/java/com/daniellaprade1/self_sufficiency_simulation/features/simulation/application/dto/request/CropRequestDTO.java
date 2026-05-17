@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Positive;
 
 import java.util.UUID;
 
-public record CropInputDTO(
+public record CropRequestDTO(
 
         @NotNull(message = "varietyId is required")
         UUID varietyId,

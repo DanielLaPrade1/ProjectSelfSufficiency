@@ -1,6 +1,6 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject;
 
-public record SimulationCropData(
+public record CropData(
         Double units,
         Double kcalPerGram,
         Double proteinPerGram,
