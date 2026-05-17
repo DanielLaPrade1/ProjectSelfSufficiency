@@ -1,4 +1,8 @@
-import type { CropInput, SimulationRequest, SimulationResponse } from "../type";
+import type {
+  CropRequest,
+  SimulationRequest,
+  SimulationResponse,
+} from "../type";
 import { CropCard, CropGrid, useCrops } from "../../crop";
 import React, { useState } from "react";
 import type { UseMutationResult } from "@tanstack/react-query";
@@ -15,7 +19,7 @@ interface SimulationFormProps {
 export function SimulationForm({ simulationMutation }: SimulationFormProps) {
   // Form Inputs
   const [calorieTarget, setCalorieTarget] = useState("");
-  const [selectedCrops, setSelectedCrops] = useState<CropInput[]>([]);
+  const [selectedCrops, setSelectedCrops] = useState<CropRequest[]>([]);
 
   // Card Loading
   const {
@@ -37,7 +41,9 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
 
     const req: SimulationRequest = {
       calorieTarget: ct,
-      cropInputs: selectedCrops,
+      cropRequests: selectedCrops,
+      // Dummy parameter (change later)
+      macroDistribution: { preset: "STANDARD" },
     };
 
     await simulationMutation.mutateAsync(req);
@@ -48,7 +54,7 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
       if (quantity === 0) {
         return sc.filter((c) => c.varietyId != varietyId);
       }
-      const newCrop: CropInput = { varietyId, units: quantity };
+      const newCrop: CropRequest = { varietyId, units: quantity };
       return [...sc, newCrop];
     });
   };

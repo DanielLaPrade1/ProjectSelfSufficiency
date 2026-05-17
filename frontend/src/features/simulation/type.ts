@@ -7,6 +7,7 @@ export interface SimulationResponse {
   selfSufficiencyPercentage: number
 }
 
+// Nutrition Totals
 export type NutritionTotals = Record<NutritionMetric, number>;
 
 // erasablesyntaxonly Safe Enum
@@ -23,10 +24,28 @@ export type NutritionMetric = typeof NUTRITION_METRIC[keyof typeof NUTRITION_MET
 
 export interface SimulationRequest {
   calorieTarget: number
-  cropInputs: CropInput[]
+  cropRequests: CropRequest[]
+  macroDistribution: MacroDistributionRequest
 }
 
-export interface CropInput {
+// Macro Distibution
+type MacroDistributionRequest =
+  | { preset: MacroDistributionPreset }
+  | { customDistribution: MacroDistribution }
+
+export type MacroDistributionPreset =
+  | "STANDARD"
+  | "MUSCLE_BUILDING"
+  | "KETO"
+
+export interface MacroDistribution {
+  proteinPercent: number
+  farPercent: number
+  carbsPercent: number
+}
+
+// CropInputs
+export interface CropRequest {
   varietyId: string
   units: number
 }
