@@ -4,15 +4,19 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 
 public record MacroDistributionDTO (
-   @NotNull(message = "proteinPercent is required")
+   @NotNull(message = "name is required")
    @Valid
-   Double proteinPercent,
+   String name,
 
-   @NotNull(message = "fatPercent is required")
+   @NotNull(message = "proteinPct is required")
    @Valid
-   Double fatPercent,
+   Double proteinPct,
 
-   @NotNull(message = "carbsPercent is required")
+   @NotNull(message = "fatPct is required")
    @Valid
-   Double carbsPercent
+   Double fatPct,
+
+   @NotNull(message = "carbsPct is required")
+   @Valid
+   Double carbsPct
 ){ }

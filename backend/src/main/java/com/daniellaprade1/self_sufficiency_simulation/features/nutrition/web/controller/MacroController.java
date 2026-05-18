@@ -20,7 +20,6 @@ public class MacroController {
         this.macroService = macroService;
     }
 
-
     @GetMapping("/presets")
     public ResponseEntity<List<MacroPresetResponseDTO>> getAllPresets() {
         List<MacroPresetResponseDTO> response = macroService.getAllPresets();

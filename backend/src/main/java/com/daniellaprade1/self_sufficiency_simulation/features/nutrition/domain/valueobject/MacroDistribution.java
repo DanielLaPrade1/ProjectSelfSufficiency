@@ -5,6 +5,7 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class MacroDistribution {
 
+    private String name;
     private Double proteinPercent;
     private Double fatPercent;
     private Double carbsPercent;
@@ -12,6 +13,7 @@ public class MacroDistribution {
     public MacroDistribution() {}
 
     public MacroDistribution(
+            String name,
             Double proteinPercent,
             Double fatPercent,
             Double carbsPercent
@@ -22,6 +24,10 @@ public class MacroDistribution {
         this.proteinPercent = proteinPercent;
         this.fatPercent = fatPercent;
     }
+
+    public String getName() {return name;}
+
+    public void setName(String name) {this.name = name;}
 
     public Double getProteinPercent() {
         return proteinPercent;

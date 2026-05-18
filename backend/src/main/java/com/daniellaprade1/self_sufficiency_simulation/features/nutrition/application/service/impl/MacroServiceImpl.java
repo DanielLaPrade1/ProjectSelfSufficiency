@@ -35,9 +35,10 @@ public class MacroServiceImpl implements MacroService {
         if (macroDistributionRequest.isPresetMode()) return macroDistributionRequest.preset().getDistribution();
         else {
             return new MacroDistribution(
-                    macroDistributionRequest.customDistribution().proteinPercent(),
-                    macroDistributionRequest.customDistribution().fatPercent(),
-                    macroDistributionRequest.customDistribution().carbsPercent()
+                    macroDistributionRequest.customDistribution().name(),
+                    macroDistributionRequest.customDistribution().proteinPct(),
+                    macroDistributionRequest.customDistribution().fatPct(),
+                    macroDistributionRequest.customDistribution().carbsPct()
             );
         }
     }
