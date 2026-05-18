@@ -6,6 +6,8 @@ import type {
 import { CropCard, CropGrid, useCrops } from "../../crop";
 import React, { useState } from "react";
 import type { UseMutationResult } from "@tanstack/react-query";
+import { useMacroPresets, MacroDistributionField } from "../../nutrition";
+import type { MacroDistributionRequest } from "../../nutrition/type";
 
 interface SimulationFormProps {
   simulationMutation: UseMutationResult<
@@ -20,19 +22,28 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
   // Form Inputs
   const [calorieTarget, setCalorieTarget] = useState("");
   const [selectedCrops, setSelectedCrops] = useState<CropRequest[]>([]);
+  const [macroDistribution, setMacroDistribution] =
+    useState<MacroDistributionRequest>({ preset: "STANDARD" });
 
-  // Card Loading
+  // Api Fetching for Fields
   const {
     data: cropCardData,
     isLoading: cropCardsLoading,
     error: cropCardError,
   } = useCrops();
-  if (cropCardsLoading) {
-    return <p>Loading Crop Cards...</p>;
-  }
-  if (cropCardError) {
-    return <p>Error loading crops.</p>;
-  }
+
+  const {
+    data: macroPresetData,
+    isLoading: macroPresetsLoading,
+    error: macroPresetError,
+  } = useMacroPresets();
+
+  if (cropCardsLoading) return <p>Loading Crop Cards...</p>;
+  if (cropCardError || !cropCardData) return <p>Error loading crops.</p>;
+
+  if (macroPresetsLoading) return <p>Loading Macro Presets...</p>;
+  if (macroPresetError || !macroPresetData)
+    return <p>Error loading macro presets.</p>;
 
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
@@ -42,9 +53,10 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
     const req: SimulationRequest = {
       calorieTarget: ct,
       cropRequests: selectedCrops,
-      // Dummy parameter (change later)
-      macroDistribution: { preset: "STANDARD" },
+      macroDistribution: macroDistribution,
     };
+    console.log(macroDistribution);
+    console.log(req);
 
     await simulationMutation.mutateAsync(req);
   };
@@ -102,6 +114,10 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
             ))}
           </CropGrid>
         </div>
+        <MacroDistributionField
+          presets={macroPresetData}
+          onChange={(m) => setMacroDistribution(m)}
+        />
         <button
           type="submit"
           disabled={simulationMutation.isPending}

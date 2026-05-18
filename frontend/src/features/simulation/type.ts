@@ -1,3 +1,5 @@
+import type { MacroDistributionRequest } from "../nutrition/type";
+
 // RESPONSE
 
 export interface SimulationResponse {
@@ -26,22 +28,6 @@ export interface SimulationRequest {
   calorieTarget: number
   cropRequests: CropRequest[]
   macroDistribution: MacroDistributionRequest
-}
-
-// Macro Distibution
-type MacroDistributionRequest =
-  | { preset: MacroDistributionPreset }
-  | { customDistribution: MacroDistribution }
-
-export type MacroDistributionPreset =
-  | "STANDARD"
-  | "MUSCLE_BUILDING"
-  | "KETO"
-
-export interface MacroDistribution {
-  proteinPercent: number
-  farPercent: number
-  carbsPercent: number
 }
 
 // CropInputs
