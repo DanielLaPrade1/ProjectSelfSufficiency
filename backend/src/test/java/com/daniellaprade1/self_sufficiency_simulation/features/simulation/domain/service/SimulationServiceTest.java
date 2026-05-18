@@ -1,14 +1,14 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.service;
 
 
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Nutrition;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.Nutrition;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Variety;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.VarietyProfile;
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Yield;
+import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.valueobject.Yield;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.infra.persistence.VarietyRepository;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.MacroDistributionRequestDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.MacroDistributionPreset;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.NutritionMetric;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.dto.MacroDistributionRequestDTO;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.MacroDistributionPreset;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.NutritionMetric;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.NutritionTotalsDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.CropRequestDTO;
@@ -16,7 +16,7 @@ import com.daniellaprade1.self_sufficiency_simulation.features.simulation.applic
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.impl.SimulationEngineImpl;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.service.impl.SimulationServiceImpl;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.MacroDistribution;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -85,9 +85,9 @@ public class SimulationServiceTest {
 
         // Assert
         assertEquals(cropUnits, result.units());
-        assertEquals(kcalPerGram, result.kcalPerGram());
-        assertEquals(minGrams, result.yieldMin());
-        assertEquals(maxGrams, result.yieldMax());
+        assertEquals(kcalPerGram, result.nutrition().getKcalPerGram());
+        assertEquals(minGrams, result.nutrition().getKcalPerGram());
+        assertEquals(maxGrams, result.nutrition().getKcalPerGram());
     }
 
     @Test
@@ -101,15 +101,15 @@ public class SimulationServiceTest {
         for (int i = 0; i < 3; i++) {
             CropRequestDTO input = new CropRequestDTO(UUID.randomUUID(), cropUnits);
             cropInputs.add(input);
+
+            double mappedUnits = 100;
+            Nutrition mappedNutrition = new Nutrition(0.1, 0d, 0d, 0d);
+            Yield mappedYield = new Yield(10d, 30d);
             // Force mapping function to return dummy data
             CropData mapped = new CropData(
-                    1d,
-                    1d,
-                    1d,
-                    1d,
-                    1d,
-                    1d,
-                    1d
+                    mappedUnits,
+                    mappedNutrition,
+                    mappedYield
             );
             doReturn(mapped)
                     .when(simulationService)

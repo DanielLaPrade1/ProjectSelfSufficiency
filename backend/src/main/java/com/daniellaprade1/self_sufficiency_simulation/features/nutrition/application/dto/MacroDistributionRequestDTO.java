@@ -1,6 +1,6 @@
-package com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request;
+package com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.dto;
 
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.MacroDistributionPreset;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.MacroDistributionPreset;
 import jakarta.validation.constraints.AssertTrue;
 
 
@@ -13,9 +13,7 @@ public record MacroDistributionRequestDTO (
         return (preset == null) ^ (customDistribution == null);
     }
 
-    public boolean isPresetMode() {
-        return preset != null;
-    }
+    public boolean isPresetMode() { return preset != null; }
 
     public boolean isCustomMode() {
         return customDistribution != null;

@@ -1,8 +1,9 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.impl;
 
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.NutritionMetric;
+import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.valueobject.Yield;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.NutritionMetric;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.NutritionTotalsDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.MacroDistribution;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.SimulationEngine;
@@ -31,7 +32,7 @@ public class SimulationEngineImpl implements SimulationEngine {
             for (NutritionMetric metric : NutritionMetric.values()) {
                 double totalValue = computeTotalNutritionMetricValuePerCrop(
                         crop,
-                        metric.extract(crop)
+                        metric.extract(crop.nutrition())
                 );
                 nutritionTotals.merge(metric, totalValue, Double::sum);
             }
@@ -46,7 +47,9 @@ public class SimulationEngineImpl implements SimulationEngine {
     }
 
     private double computeTotalNutritionMetricValuePerCrop(CropData crop, Double value) {
-        double avgYield = (crop.yieldMin() + crop.yieldMax()) / 2;
+        Yield cropYield = crop.yield();
+
+        double avgYield = (cropYield.getMinGrams() + cropYield.getMaxGrams()) / 2;
         double valuePerUnit = avgYield * value;
         return valuePerUnit * crop.units();
     }

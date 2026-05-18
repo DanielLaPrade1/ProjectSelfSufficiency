@@ -1,4 +1,4 @@
-package com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity;
+package com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject;
 
 import jakarta.persistence.Embeddable;
 

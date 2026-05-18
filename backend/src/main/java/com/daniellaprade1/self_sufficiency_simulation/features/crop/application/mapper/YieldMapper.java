@@ -1,7 +1,7 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.crop.application.mapper;
 
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.application.dto.YieldDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Yield;
+import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.valueobject.Yield;
 import org.springframework.stereotype.Component;
 
 @Component

@@ -1,11 +1,11 @@
-package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums;
+package com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums;
 
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.MacroDistribution;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
 
 public enum MacroDistributionPreset {
-    STANDARD(55, 25, 20),
+    STANDARD(30, 30, 40),
     MUSCLE_BUILDING(50, 35, 15),
-    KETO(10, 30, 60);
+    KETO(5, 25, 70);
 
     private final MacroDistribution distribution;
 

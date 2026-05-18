@@ -2,6 +2,8 @@ package com.daniellaprade1.self_sufficiency_simulation.features.crop.web.control
 
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.application.dto.CropOptionDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.application.service.CropService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +21,8 @@ public class CropController {
     }
 
     @GetMapping
-    public List<CropOptionDTO> getAll() {
-        return cropService.getAllCropOptions();
+    public ResponseEntity<List<CropOptionDTO>> getAll() {
+        List<CropOptionDTO> response = cropService.getAllCropOptions();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

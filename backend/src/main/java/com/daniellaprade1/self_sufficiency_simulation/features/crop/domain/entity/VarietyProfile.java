@@ -1,5 +1,7 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity;
 
+import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.valueobject.Yield;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.Nutrition;
 import jakarta.persistence.*;
 
 import java.util.Objects;

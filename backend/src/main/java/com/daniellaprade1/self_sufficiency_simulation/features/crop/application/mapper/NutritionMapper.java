@@ -1,7 +1,7 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.crop.application.mapper;
 
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.application.dto.NutritionDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Nutrition;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.Nutrition;
 import org.springframework.stereotype.Component;
 
 @Component

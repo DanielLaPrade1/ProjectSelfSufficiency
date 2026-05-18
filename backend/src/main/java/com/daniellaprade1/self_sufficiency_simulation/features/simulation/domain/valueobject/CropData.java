@@ -1,11 +1,10 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject;
 
+import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.valueobject.Yield;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.Nutrition;
+
 public record CropData(
         Double units,
-        Double kcalPerGram,
-        Double proteinPerGram,
-        Double totalFatPerGram,
-        Double totalCarbsPerGram,
-        Double yieldMin,
-        Double yieldMax
+        Nutrition nutrition,
+        Yield yield
 ) {}

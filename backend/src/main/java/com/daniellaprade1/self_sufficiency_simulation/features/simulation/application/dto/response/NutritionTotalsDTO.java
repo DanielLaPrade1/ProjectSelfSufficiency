@@ -1,6 +1,6 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response;
 
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.enums.NutritionMetric;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.NutritionMetric;
 
 import java.util.Map;
 

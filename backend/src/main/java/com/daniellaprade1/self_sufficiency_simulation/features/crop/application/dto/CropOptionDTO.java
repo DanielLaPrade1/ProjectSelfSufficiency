@@ -1,8 +1,8 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.crop.application.dto;
 
 
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Nutrition;
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Yield;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.Nutrition;
+import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.valueobject.Yield;
 import jakarta.validation.constraints.*;
 
 import java.util.UUID;

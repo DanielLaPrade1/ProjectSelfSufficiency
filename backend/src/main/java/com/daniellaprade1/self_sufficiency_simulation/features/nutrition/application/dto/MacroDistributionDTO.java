@@ -1,4 +1,4 @@
-package com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request;
+package com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.dto;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
