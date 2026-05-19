@@ -2,7 +2,7 @@ package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domai
 
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.valueobject.Yield;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.NutritionMetric;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.NutritionTotalsDTO;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.NutritionResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 public class SimulationEngineImpl implements SimulationEngine {
 
-    private static final int DAYS_PER_YEAR = 365;
+    private static final int SIMULATION_LENGTH_DAYS = 365;
 
     @Override
     public SimulationResponseDTO run(List<CropData> cropData, MacroDistribution macroDistribution, Double dailyCalorieTarget) {
@@ -30,7 +30,7 @@ public class SimulationEngineImpl implements SimulationEngine {
         // Calculate all nutrition metrics for each crop
         for (CropData crop : cropData) {
             for (NutritionMetric metric : NutritionMetric.values()) {
-                double totalValue = computeTotalNutritionMetricValuePerCrop(
+                double totalValue = computeTotalNutritionMetricValue(
                         crop,
                         metric.extract(crop.nutrition())
                 );
@@ -38,15 +38,31 @@ public class SimulationEngineImpl implements SimulationEngine {
             }
         }
 
-        // Calories
-        double caloriesProduced = nutritionTotals.get(NutritionMetric.CALORIES);
-        double yearlyCalorieTarget = dailyCalorieTarget * DAYS_PER_YEAR;
-        double selfSufficiencyPercentage = caloriesProduced / yearlyCalorieTarget;
+        // Nutrition Needed
+        Map<NutritionMetric, Double> nutritionTargets = new EnumMap<>(NutritionMetric.class);
 
-        return new SimulationResponseDTO(new NutritionTotalsDTO(nutritionTotals), selfSufficiencyPercentage);
+        // Calories are the only determinant of selfSufficiencyPercentage right now
+        double caloriesProduced = nutritionTotals.get(NutritionMetric.CALORIES);
+        double simulationCalorieTarget = dailyCalorieTarget * SIMULATION_LENGTH_DAYS;
+        double selfSufficiencyPercentage = caloriesProduced / simulationCalorieTarget;
+
+        nutritionTargets.put(NutritionMetric.CALORIES, simulationCalorieTarget);
+
+        // Macros
+        for (NutritionMetric metric : NutritionMetric.values()) {
+            if (metric.isMacro()) {
+                double simulationMacrosNeeded = macroDistribution.getFromMetric(metric) * simulationCalorieTarget;
+                nutritionTargets.put(metric, simulationMacrosNeeded);
+            }
+        }
+
+        return new SimulationResponseDTO(
+                new NutritionResponseDTO(nutritionTotals, nutritionTargets),
+                selfSufficiencyPercentage
+        );
     }
 
-    private double computeTotalNutritionMetricValuePerCrop(CropData crop, Double value) {
+    private double computeTotalNutritionMetricValue(CropData crop, Double value) {
         Yield cropYield = crop.yield();
 
         double avgYield = (cropYield.getMinGrams() + cropYield.getMaxGrams()) / 2;

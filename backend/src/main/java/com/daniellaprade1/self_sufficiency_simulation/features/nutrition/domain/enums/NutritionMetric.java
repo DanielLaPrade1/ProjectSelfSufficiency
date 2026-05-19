@@ -3,6 +3,7 @@ package com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.Nutrition;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
 
+import java.util.EnumSet;
 import java.util.function.ToDoubleFunction;
 
 public enum NutritionMetric {
@@ -13,11 +14,18 @@ public enum NutritionMetric {
 
     private final ToDoubleFunction<Nutrition> value;
 
+    private static final EnumSet<NutritionMetric> MACROS =
+            EnumSet.of(PROTEIN, FAT, CARBS);
+
     NutritionMetric(ToDoubleFunction<Nutrition> value) {
         this.value = value;
     }
 
     public double extract(Nutrition crop) {
         return value.applyAsDouble(crop);
+    }
+    
+    public boolean isMacro() {
+        return MACROS.contains(this);
     }
 }

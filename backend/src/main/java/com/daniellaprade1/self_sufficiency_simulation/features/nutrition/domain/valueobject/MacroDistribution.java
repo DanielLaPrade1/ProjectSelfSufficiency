@@ -1,5 +1,6 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject;
 
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.NutritionMetric;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
@@ -51,6 +52,17 @@ public class MacroDistribution {
 
     public void setCarbsPercent(Double carbsPercent) {
         this.carbsPercent = carbsPercent;
+    }
+
+    public Double getFromMetric(NutritionMetric metric) {
+        return switch (metric) {
+            case PROTEIN -> proteinPercent;
+            case FAT -> fatPercent;
+            case CARBS -> carbsPercent;
+            default -> throw new UnsupportedOperationException(
+                    metric.name() + " has no MacroDistribution mapping"
+            );
+        };
     }
 
     private void validate(

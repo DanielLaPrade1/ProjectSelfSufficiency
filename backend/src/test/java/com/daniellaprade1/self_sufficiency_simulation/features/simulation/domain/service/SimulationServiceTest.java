@@ -9,7 +9,7 @@ import com.daniellaprade1.self_sufficiency_simulation.features.crop.infra.persis
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.dto.MacroDistributionRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.MacroDistributionPreset;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.NutritionMetric;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.NutritionTotalsDTO;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.NutritionResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.CropRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.SimulationRequestDTO;
@@ -121,11 +121,13 @@ public class SimulationServiceTest {
 
         SimulationRequestDTO request = new SimulationRequestDTO(calorieTarget, cropInputs, macroDistributionInput);
 
+        // Dummy expected data
         double caloriesProduced = 2000;
         Map<NutritionMetric, Double> nutritionTotals = Map.of(NutritionMetric.CALORIES, caloriesProduced);
+        Map<NutritionMetric, Double> nutritionTargets = Map.of(NutritionMetric.CALORIES, caloriesProduced);
         double selfSufficiencyPercentage = 100;
 
-        SimulationResponseDTO expected = new SimulationResponseDTO(new NutritionTotalsDTO(nutritionTotals), selfSufficiencyPercentage);
+        SimulationResponseDTO expected = new SimulationResponseDTO(new NutritionResponseDTO(nutritionTotals, nutritionTargets), selfSufficiencyPercentage);
 
         when(simulationEngine.run(engineCropData, engineDistribution, calorieTarget))
                 .thenReturn(expected);

@@ -42,6 +42,6 @@ public class SimulationEngineTest {
         // avg yield = (10 + 30) / 2 = 20
         // calories per unit = 0.1 * 20 = 2
         // total calories = 100 * 2 = 200
-        assertEquals(200, result.nutritionTotals().get(NutritionMetric.CALORIES));
+        assertEquals(200, result.nutritionTotals().getTotal(NutritionMetric.CALORIES));
     }
 }

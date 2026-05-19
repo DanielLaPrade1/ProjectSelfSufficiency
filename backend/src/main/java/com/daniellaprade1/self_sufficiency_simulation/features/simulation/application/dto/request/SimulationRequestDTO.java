@@ -21,6 +21,4 @@ public record SimulationRequestDTO(
         @NotNull(message = "macroDistribution is required")
         @Valid
         MacroDistributionRequestDTO macroDistribution
-
-
 ) {}
