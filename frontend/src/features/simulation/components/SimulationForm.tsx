@@ -48,6 +48,8 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
   const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
 
+    simulationMutation.reset();
+
     const ct: number = Number(calorieTarget);
 
     const req: SimulationRequest = {
@@ -55,8 +57,6 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
       cropRequests: selectedCrops,
       macroDistribution: macroDistribution,
     };
-    console.log(macroDistribution);
-    console.log(req);
 
     await simulationMutation.mutateAsync(req);
   };
@@ -72,72 +72,109 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
   };
 
   return (
-    <div className="h-[20%], w-[50%] m-2 p-3">
-      <form onSubmit={handleSubmit}>
-        <input
-          value={calorieTarget}
-          onChange={(e) => setCalorieTarget(e.target.value)}
-          type="text"
-          placeholder="Daily Calorie Target"
-          className="
-          w-half
-          rounded-2xl
-          border
-          border-gray-300
-          bg-white
-          px-4
-          py-3
-          text-gray-900
-          shadow-sm
-          outline-none
-          transition
-          duration-200
-          placeholder:text-gray-400
-          focus:border-green-500
-          focus:ring-4
-          focus:ring-blue-200
-        "
-        />
-        <div className="my-2">
-          <CropGrid minCardWidth="150px" gap="1em">
-            {cropCardData?.map((crop) => (
-              <CropCard
-                key={crop.varietyID}
-                backgroundImage={"/images/crop/farm-bg-1.webp"}
-                cropImage={crop.varietyImageUrl}
-                varietyName={crop.varietyName}
-                cropName={crop.cropName}
-                onQuantityChange={(q) =>
-                  handleCropQuantityChange(crop.varietyID, q)
-                }
-              />
-            ))}
-          </CropGrid>
-        </div>
-        <MacroDistributionField
-          presets={macroPresetData}
-          onChange={(m) => setMacroDistribution(m)}
-        />
+    <div className="w-full max-w-2xl px-4 py-6">
+      {/* ── Page header ──────────────────────────────────────────────────── */}
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-900">Crop Simulation</h1>
+        <p className="mt-1 text-sm text-gray-500">
+          Configure your harvest inputs and run a nutritional yield simulation.
+        </p>
+      </div>
+
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+        {/* ── Section 1: Calorie target ────────────────────────────────────── */}
+        <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <label
+            htmlFor="calorie-target"
+            className="mb-2 block text-sm font-semibold uppercase tracking-wide text-gray-500"
+          >
+            Daily Calorie Target
+          </label>
+          <div className="relative">
+            <input
+              id="calorie-target"
+              value={calorieTarget}
+              onChange={(e) => setCalorieTarget(e.target.value)}
+              type="number"
+              min={800}
+              max={10000}
+              placeholder="e.g. 2000"
+              className="
+                w-full rounded-xl border border-gray-300 bg-white
+                px-4 py-3 pr-16 text-gray-900 shadow-sm outline-none
+                transition duration-200 placeholder:text-gray-400
+                focus:border-green-500 focus:ring-4 focus:ring-green-100
+              "
+            />
+            {/* Inline unit suffix */}
+            <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-sm font-medium text-gray-400">
+              kcal
+            </span>
+          </div>
+        </section>
+
+        {/* ── Section 2: Crop selection ────────────────────────────────────── */}
+        <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
+            Select Crops
+          </h2>
+          {cropCardData.length === 0 ? (
+            <p className="text-sm text-gray-400">No crops available.</p>
+          ) : (
+            <CropGrid minCardWidth="150px" gap="1em">
+              {cropCardData?.map((crop) => (
+                <CropCard
+                  key={crop.varietyID}
+                  backgroundImage={"/images/crop/farm-bg-1.webp"}
+                  cropImage={crop.varietyImageUrl}
+                  varietyName={crop.varietyName}
+                  cropName={crop.cropName}
+                  onQuantityChange={(q) =>
+                    handleCropQuantityChange(crop.varietyID, q)
+                  }
+                />
+              ))}
+            </CropGrid>
+          )}
+        </section>
+
+        {/* ── Section 3: Macro distribution ───────────────────────────────── */}
+        <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <label className="mb-2 block text-sm font-semibold uppercase tracking-wide text-gray-500">
+            Select Macro Split
+          </label>
+          <MacroDistributionField
+            presets={macroPresetData}
+            onChange={(m) => setMacroDistribution(m)}
+          />
+        </section>
+
+        {/* ── CTA ──────────────────────────────────────────────────────────── */}
         <button
           type="submit"
           disabled={simulationMutation.isPending}
           className="
-          rounded-2xl
-          bg-blue-600
-          px-6
-          py-3
-          text-lg
-          font-semibold
-          text-white
-          shadow-md
-          transition
-          duration-200
-          hover:bg-blue-700
-          hover:shadow-lg
-          active:scale-[0.98]
-        "
+            flex w-full items-center justify-center gap-3
+            rounded-2xl bg-green-600 px-6 py-4
+            text-lg font-semibold text-white shadow-md
+            transition duration-200
+            hover:bg-green-700 hover:shadow-lg
+            active:scale-[0.98]
+            disabled:cursor-not-allowed disabled:opacity-60
+          "
         >
-          Run Simulation
+          {simulationMutation.isPending ? (
+            <>
+              {/* Spinner */}
+              <span
+                className="h-5 w-5 animate-spin rounded-full border-2 border-white border-t-transparent"
+                aria-hidden="true"
+              />
+              Running simulation…
+            </>
+          ) : (
+            "Run Simulation"
+          )}
         </button>
       </form>
     </div>

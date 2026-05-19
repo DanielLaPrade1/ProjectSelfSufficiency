@@ -185,7 +185,6 @@ export function MacroDistributionField({
   onChange,
   disabled = false,
   label = "Macro Distribution",
-  showLabel = true,
   error,
   className = "",
 }: MacroDistributionFieldProps) {
@@ -235,7 +234,7 @@ export function MacroDistributionField({
     <fieldset
       disabled={disabled}
       className={[
-        "rounded-xl border bg-white p-4 shadow-sm",
+        "rounded-xl bg-white p-4 shadow-sm",
         "dark:bg-gray-900 dark:shadow-none",
         error
           ? "border-red-400 dark:border-red-500"
@@ -245,12 +244,6 @@ export function MacroDistributionField({
       ].join(" ")}
       aria-label={label}
     >
-      {showLabel && (
-        <legend className="mb-3 px-0.5 text-sm font-semibold text-gray-700 dark:text-gray-200">
-          {label}
-        </legend>
-      )}
-
       {/* Preset pills + Custom toggle */}
       <div
         role="radiogroup"

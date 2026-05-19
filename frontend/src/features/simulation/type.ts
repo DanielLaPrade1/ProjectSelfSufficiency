@@ -5,14 +5,13 @@ import type { MacroDistributionRequest } from "../nutrition/type";
 export interface SimulationResponse {
   nutritionTotals: {
     totals: Record<NutritionMetric, number>
+    targets: Record<NutritionMetric, number>
   }
   selfSufficiencyPercentage: number
 }
 
-// Nutrition Totals
-export type NutritionTotals = Record<NutritionMetric, number>;
 
-// erasablesyntaxonly Safe Enum
+// NutritionMetric Enum
 const NUTRITION_METRIC = { 
   CALORIES: "CALORIES",
   PROTEIN: "PROTEIN",
@@ -30,7 +29,7 @@ export interface SimulationRequest {
   macroDistribution: MacroDistributionRequest
 }
 
-// CropInputs
+// CropRequestDTO
 export interface CropRequest {
   varietyId: string
   units: number
