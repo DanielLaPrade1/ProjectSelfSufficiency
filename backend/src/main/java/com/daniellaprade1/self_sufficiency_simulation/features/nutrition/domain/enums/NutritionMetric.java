@@ -24,8 +24,8 @@ public enum NutritionMetric {
     public double extract(Nutrition crop) {
         return value.applyAsDouble(crop);
     }
-    
-    public boolean isMacro() {
-        return MACROS.contains(this);
+
+    public static EnumSet<NutritionMetric> macros() {
+        return EnumSet.copyOf(MACROS);
     }
 }

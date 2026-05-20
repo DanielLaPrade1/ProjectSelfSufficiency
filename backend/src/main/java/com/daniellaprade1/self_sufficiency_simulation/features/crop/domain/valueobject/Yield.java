@@ -20,5 +20,5 @@ public class Yield {
 
     public Double getMaxGrams() {return this.maxGrams;}
 
-    public void setMaxGrams(Double maxGrams) {this.maxGrams = minGrams;}
+    public void setMaxGrams(Double maxGrams) {this.maxGrams = maxGrams;}
 }

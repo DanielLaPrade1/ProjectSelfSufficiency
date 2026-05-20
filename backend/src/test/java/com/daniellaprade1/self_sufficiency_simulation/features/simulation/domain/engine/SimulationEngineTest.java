@@ -39,9 +39,9 @@ public class SimulationEngineTest {
         SimulationResponseDTO result = simulationEngine.run(crops, ketoDistribution, 200.0);
 
         // Assert
-        // avg yield = (10 + 30) / 2 = 20
-        // calories per unit = 0.1 * 20 = 2
+        // average yield = (10 + 30) / 2 = 20
+        // calories per unit min = 0.1 * 20 = 2
         // total calories = 100 * 2 = 200
-        assertEquals(200, result.nutritionTotals().getTotal(NutritionMetric.CALORIES));
+        assertEquals(200, result.nutritionTotals().getTarget(NutritionMetric.CALORIES));
     }
 }

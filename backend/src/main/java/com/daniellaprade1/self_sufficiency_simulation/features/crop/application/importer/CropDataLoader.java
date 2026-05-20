@@ -3,7 +3,7 @@ package com.daniellaprade1.self_sufficiency_simulation.features.crop.application
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.application.service.CropImportService;
 import org.springframework.boot.CommandLineRunner;
 
-//@Component
+// @Component
 public class CropDataLoader implements CommandLineRunner {
 
     private final CropImportService cropImportService;
