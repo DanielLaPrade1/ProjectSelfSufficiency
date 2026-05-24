@@ -1,3 +1,4 @@
+import { NutritionProgressBar } from "../../nutrition/componets/NutritionProgressBar";
 import type { SimulationRequest, SimulationResponse } from "../type";
 import type { UseMutationResult } from "@tanstack/react-query";
 
@@ -16,25 +17,41 @@ export function SimulationResults({
   const totals = simulationMutation.data?.nutritionTotals?.totals;
   const targets = simulationMutation.data?.nutritionTotals?.targets;
 
+  console.log(simulationMutation.data);
+
   return (
     <div className="m-2 p-3">
-      {simulationMutation.data && (
-        <div>
-          <p>
-            Calories Produced: {totals?.CALORIES.toFixed(0)} /{" "}
-            {targets?.CALORIES.toFixed(0)}
-          </p>
-          <p>
-            Protein Produced: {totals?.PROTEIN.toFixed(0)} /{" "}
-            {targets?.PROTEIN.toFixed(0)}
-          </p>
-          <p>
-            Fat Produced: {totals?.FAT.toFixed(0)} / {targets?.FAT.toFixed(0)}
-          </p>
-          <p>
-            Carbs Produced: {totals?.CARBS.toFixed(0)} /{" "}
-            {targets?.CARBS.toFixed(0)}
-          </p>
+      {simulationMutation.error && <p>{simulationMutation.error.message}</p>}
+      {simulationMutation.data && totals && targets && (
+        <div className="w-full max-w-2xl px-4 py-6">
+          <NutritionProgressBar
+            label="Calories Produced"
+            min={totals.CALORIES.yieldMin}
+            max={totals.CALORIES.yieldMax}
+            goal={targets.CALORIES}
+            labelGrams={false}
+          />
+          <NutritionProgressBar
+            label="Protein Produced"
+            min={totals.PROTEIN.yieldMin}
+            max={totals.PROTEIN.yieldMax}
+            goal={targets.PROTEIN}
+            color="#297fff"
+          />
+          <NutritionProgressBar
+            label="Fat Produced"
+            min={totals.FAT.yieldMin}
+            max={totals.FAT.yieldMax}
+            goal={targets.FAT}
+            color="#fdbb00"
+          />
+          <NutritionProgressBar
+            label="Carbs Produced"
+            min={totals.CARBS.yieldMin}
+            max={totals.CARBS.yieldMax}
+            goal={targets.CARBS}
+            color="#00c94f"
+          />
           <p>
             You are{" "}
             {(simulationMutation.data.selfSufficiencyPercentage * 100).toFixed(
@@ -44,7 +61,6 @@ export function SimulationResults({
           </p>
         </div>
       )}
-      {simulationMutation.error && <p>{simulationMutation.error.message}</p>}
     </div>
   );
 }

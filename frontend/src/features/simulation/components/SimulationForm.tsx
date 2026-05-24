@@ -75,8 +75,8 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
     <div className="w-full max-w-2xl px-4 py-6">
       {/* ── Page header ──────────────────────────────────────────────────── */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Crop Simulation</h1>
-        <p className="mt-1 text-sm text-gray-500">
+        <h1 className="text-5xl font-bold text-gray-900">Crop Simulation</h1>
+        <p className="mt-1 text-md text-gray-500">
           Configure your harvest inputs and run a nutritional yield simulation.
         </p>
       </div>
@@ -113,10 +113,21 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
           </div>
         </section>
 
-        {/* ── Section 2: Crop selection ────────────────────────────────────── */}
+        {/* ── Section 2: Macro distribution ───────────────────────────────── */}
+        <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+          <label className="mb-2 block text-sm font-semibold uppercase tracking-wide text-gray-500">
+            Select Macro Split
+          </label>
+          <MacroDistributionField
+            presets={macroPresetData}
+            onChange={(m) => setMacroDistribution(m)}
+          />
+        </section>
+
+        {/* ── Section 3: Crop selection ────────────────────────────────────── */}
         <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
           <h2 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
-            Select Crops
+            Which Crops Are You Growing?
           </h2>
           {cropCardData.length === 0 ? (
             <p className="text-sm text-gray-400">No crops available.</p>
@@ -136,17 +147,6 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
               ))}
             </CropGrid>
           )}
-        </section>
-
-        {/* ── Section 3: Macro distribution ───────────────────────────────── */}
-        <section className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-          <label className="mb-2 block text-sm font-semibold uppercase tracking-wide text-gray-500">
-            Select Macro Split
-          </label>
-          <MacroDistributionField
-            presets={macroPresetData}
-            onChange={(m) => setMacroDistribution(m)}
-          />
         </section>
 
         {/* ── CTA ──────────────────────────────────────────────────────────── */}

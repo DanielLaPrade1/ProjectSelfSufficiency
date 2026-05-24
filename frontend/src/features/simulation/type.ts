@@ -1,15 +1,14 @@
 import type { MacroDistributionRequest } from "../nutrition/type";
 
-// RESPONSE
+// ─── RESPONSE ──────────────────────────────────────────────────────
 
 export interface SimulationResponse {
   nutritionTotals: {
-    totals: Record<NutritionMetric, number>
+    totals: Record<NutritionMetric, NutritionRange>
     targets: Record<NutritionMetric, number>
   }
   selfSufficiencyPercentage: number
 }
-
 
 // NutritionMetric Enum
 const NUTRITION_METRIC = { 
@@ -20,8 +19,13 @@ const NUTRITION_METRIC = {
 } as const;
 export type NutritionMetric = typeof NUTRITION_METRIC[keyof typeof NUTRITION_METRIC];
 
+export interface NutritionRange {
+  yieldMin: number
+  yieldMax: number
+}
 
-// REQUEST
+
+// ─── REQUEST ──────────────────────────────────────────────────────
 
 export interface SimulationRequest {
   calorieTarget: number
