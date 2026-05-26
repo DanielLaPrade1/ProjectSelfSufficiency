@@ -1,7 +1,7 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response;
 
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.NutritionMetric;
-import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.NutritionRange;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.result.NutritionRange;
 
 import java.util.Map;
 

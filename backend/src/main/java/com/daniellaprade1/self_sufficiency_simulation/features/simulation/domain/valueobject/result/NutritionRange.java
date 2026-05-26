@@ -1,11 +1,11 @@
-package com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject;
+package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.result;
 
 public record NutritionRange(
         Double yieldMin,
         Double yieldMax
 ) {
-    public double midpoint() {return yieldMax - yieldMin;}
-    public double spread() {return (yieldMax + yieldMin) / 2;}
+    public double spread() {return yieldMax - yieldMin;}
+    public double midpoint() {return (yieldMax + yieldMin) / 2;}
 
     public NutritionRange add(NutritionRange other) {
         return new NutritionRange(

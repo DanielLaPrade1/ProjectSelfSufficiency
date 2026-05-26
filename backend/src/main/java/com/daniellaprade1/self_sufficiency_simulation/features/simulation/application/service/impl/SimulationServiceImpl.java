@@ -6,13 +6,14 @@ import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.value
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.infra.persistence.VarietyRepository;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.service.MacroService;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.dto.MacroDistributionRequestDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.MacroDistribution;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.CropData;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.CropRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.SimulationRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.SimulationEngine;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.service.SimulationService;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.SimulationParameters;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,6 +34,8 @@ public class SimulationServiceImpl implements SimulationService {
 
     @Override
     public SimulationResponseDTO runSimulation(SimulationRequestDTO request) {
+
+
         List<CropData> cropData = request.cropRequests()
                 .stream()
                 .map(this::toCropData)
@@ -41,7 +44,14 @@ public class SimulationServiceImpl implements SimulationService {
         MacroDistributionRequestDTO macroDistributionRequest = request.macroDistribution();
         MacroDistribution macroDistribution = macroService.resolveMacroDistribution(macroDistributionRequest);
 
-        return simulationEngine.run(cropData, macroDistribution, request.calorieTarget());
+        SimulationParameters simulationParameters =
+                new SimulationParameters(
+                        cropData,
+                        macroDistribution,
+                        request.calorieTarget()
+                );
+
+        return simulationEngine.run(simulationParameters);
     }
 
     @Override

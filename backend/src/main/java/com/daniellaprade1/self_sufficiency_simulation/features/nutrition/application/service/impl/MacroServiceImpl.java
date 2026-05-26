@@ -4,7 +4,7 @@ import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.applica
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.mapper.MacroDistributionPresetMapper;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.service.MacroService;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.MacroDistributionPreset;
-import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.MacroDistribution;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.dto.MacroDistributionRequestDTO;
 import org.springframework.stereotype.Service;
 

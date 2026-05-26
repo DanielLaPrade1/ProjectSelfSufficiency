@@ -1,7 +1,6 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums;
 
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.Nutrition;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.CropData;
 
 import java.util.EnumSet;
 import java.util.function.ToDoubleFunction;
