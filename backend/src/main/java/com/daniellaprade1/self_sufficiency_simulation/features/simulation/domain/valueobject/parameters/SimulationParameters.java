@@ -3,7 +3,7 @@ package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domai
 import java.util.List;
 
 public record SimulationParameters(
-        List<CropData> cropData,
-        MacroDistribution macroDistribution,
+        List<CropInput> cropInputs,
+        MacroDistributionInput macroDistributionInput,
         Double dailyCalorieTarget
 ) {}

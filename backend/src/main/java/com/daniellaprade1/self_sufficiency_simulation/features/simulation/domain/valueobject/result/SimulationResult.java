@@ -1,10 +1,8 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.result;
 
-import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums.NutritionMetric;
-
-import java.util.Map;
+import java.util.List;
 
 public record SimulationResult(
-        NutritionMetricResult nutritionResults,
+        List<NutritionMetricResult> nutritionMetricResults,
         Double selfSufficiencyPercentage
 ) {}

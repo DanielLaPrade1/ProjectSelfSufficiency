@@ -1,22 +1,28 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.service.impl;
 
-import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.Nutrition;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entity.Variety;
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.valueobject.Yield;
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.infra.persistence.VarietyRepository;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.service.MacroService;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.dto.MacroDistributionRequestDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.MacroDistribution;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.CropData;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.mapper.CropInputMapper;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.mapper.MacroDistributionInputMapper;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.CropInput;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.CropRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.SimulationRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.response.SimulationResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.engine.SimulationEngine;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.service.SimulationService;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.MacroDistributionInput;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.SimulationParameters;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.result.SimulationResult;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static java.util.stream.Collectors.toMap;
 
 @Service
 public class SimulationServiceImpl implements SimulationService {
@@ -26,46 +32,57 @@ public class SimulationServiceImpl implements SimulationService {
 
     private final MacroService macroService;
 
-    public SimulationServiceImpl(VarietyRepository varietyRepository, SimulationEngine simulationEngine, MacroService macroService) {
+    private final CropInputMapper cropInputMapper;
+    private final MacroDistributionInputMapper macroDistributionInputMapper;
+
+    public SimulationServiceImpl(VarietyRepository varietyRepository, SimulationEngine simulationEngine, MacroService macroService, CropInputMapper cropInputMapper, MacroDistributionInputMapper macroDistributionInputMapper) {
         this.varietyRepository = varietyRepository;
         this.simulationEngine = simulationEngine;
         this.macroService = macroService;
+
+        this.cropInputMapper = cropInputMapper;
+        this.macroDistributionInputMapper = macroDistributionInputMapper;
     }
 
     @Override
     public SimulationResponseDTO runSimulation(SimulationRequestDTO request) {
 
-
-        List<CropData> cropData = request.cropRequests()
+        // Fetch Varieties
+        List<UUID> varietyIds = request.cropRequests()
                 .stream()
-                .map(this::toCropData)
+                .map(CropRequestDTO::varietyId)
                 .toList();
 
+        Map<UUID, Variety> varietyMap = varietyRepository.findAllById(varietyIds)
+                .stream()
+                .collect(toMap(Variety::getId, v -> v));
+
+
+        // CropRequestDTO -> Parameter: cropInputs
+        List<CropInput> cropInputs = request.cropRequests()
+                .stream()
+                .map(cropRequest -> {
+                    Variety variety = varietyMap.get(cropRequest.varietyId());
+                    if (variety == null) throw new IllegalArgumentException("Invalid VarietyID: " + cropRequest.varietyId());
+                    return cropInputMapper.toCropInput(variety, cropRequest.units());
+                })
+                .toList();
+
+        // MacroDistributionDTO -> Parameter: macroDistributionInput
         MacroDistributionRequestDTO macroDistributionRequest = request.macroDistribution();
         MacroDistribution macroDistribution = macroService.resolveMacroDistribution(macroDistributionRequest);
+        MacroDistributionInput macroDistributionInput = macroDistributionInputMapper.toMacroDistributionInput(macroDistribution)
 
+
+        // Run simulation engine
         SimulationParameters simulationParameters =
                 new SimulationParameters(
-                        cropData,
-                        macroDistribution,
+                        cropInputs,
+                        macroDistributionInput,
                         request.calorieTarget()
                 );
 
-        return simulationEngine.run(simulationParameters);
-    }
-
-    @Override
-    public CropData toCropData(CropRequestDTO cropRequest) {
-        Variety variety = varietyRepository.findById(cropRequest.varietyId())
-                .orElseThrow(() -> new IllegalArgumentException("Invalid VarietyID"));
-
-        Nutrition requestVarietyNutrition = variety.getProfile().getNutrition();
-        Yield requestVarietyYield = variety.getProfile().getYield();
-
-        return new CropData(
-                cropRequest.units(),
-                requestVarietyNutrition,
-                requestVarietyYield
-        );
+        // **Swap return value in engine with Simulation result, then map, then return from here
+        SimulationResult result = simulationEngine.run(simulationParameters);
     }
 }

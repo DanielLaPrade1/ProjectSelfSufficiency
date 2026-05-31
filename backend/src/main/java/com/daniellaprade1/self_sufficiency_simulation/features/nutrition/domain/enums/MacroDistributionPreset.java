@@ -1,6 +1,6 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.enums;
 
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.MacroDistribution;
+import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
 
 public enum MacroDistributionPreset {
     STANDARD(30, 30, 40),
