@@ -73,7 +73,6 @@ public class SimulationServiceImpl implements SimulationService {
         MacroDistribution macroDistribution = macroService.resolveMacroDistribution(macroDistributionRequest);
         MacroDistributionInput macroDistributionInput = macroDistributionInputMapper.toMacroDistributionInput(macroDistribution)
 
-
         // Run simulation engine
         SimulationParameters simulationParameters =
                 new SimulationParameters(
@@ -81,7 +80,6 @@ public class SimulationServiceImpl implements SimulationService {
                         macroDistributionInput,
                         request.calorieTarget()
                 );
-
         // **Swap return value in engine with Simulation result, then map, then return from here
         SimulationResult result = simulationEngine.run(simulationParameters);
     }
