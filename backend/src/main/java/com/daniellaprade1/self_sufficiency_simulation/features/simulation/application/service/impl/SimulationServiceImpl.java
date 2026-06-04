@@ -4,9 +4,10 @@ import com.daniellaprade1.self_sufficiency_simulation.features.crop.domain.entit
 import com.daniellaprade1.self_sufficiency_simulation.features.crop.infra.persistence.VarietyRepository;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.service.MacroService;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.application.dto.MacroDistributionRequestDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.mapper.CropInputMapper;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.mapper.input.CropInputMapper;
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
-import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.mapper.MacroDistributionInputMapper;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.mapper.input.MacroDistributionInputMapper;
+import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.mapper.output.SimulationResponseMapper;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.CropInput;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.CropRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.dto.request.SimulationRequestDTO;
@@ -35,13 +36,25 @@ public class SimulationServiceImpl implements SimulationService {
     private final CropInputMapper cropInputMapper;
     private final MacroDistributionInputMapper macroDistributionInputMapper;
 
-    public SimulationServiceImpl(VarietyRepository varietyRepository, SimulationEngine simulationEngine, MacroService macroService, CropInputMapper cropInputMapper, MacroDistributionInputMapper macroDistributionInputMapper) {
+    private final SimulationResponseMapper simulationResponseMapper;
+
+
+    public SimulationServiceImpl(
+            VarietyRepository varietyRepository,
+            SimulationEngine simulationEngine,
+            MacroService macroService,
+            CropInputMapper cropInputMapper,
+            MacroDistributionInputMapper macroDistributionInputMapper,
+            SimulationResponseMapper simulationResponseMapper
+    ) {
         this.varietyRepository = varietyRepository;
         this.simulationEngine = simulationEngine;
         this.macroService = macroService;
 
         this.cropInputMapper = cropInputMapper;
         this.macroDistributionInputMapper = macroDistributionInputMapper;
+
+        this.simulationResponseMapper = simulationResponseMapper;
     }
 
     @Override
@@ -58,6 +71,7 @@ public class SimulationServiceImpl implements SimulationService {
                 .collect(toMap(Variety::getId, v -> v));
 
 
+
         // CropRequestDTO -> Parameter: cropInputs
         List<CropInput> cropInputs = request.cropRequests()
                 .stream()
@@ -71,7 +85,7 @@ public class SimulationServiceImpl implements SimulationService {
         // MacroDistributionDTO -> Parameter: macroDistributionInput
         MacroDistributionRequestDTO macroDistributionRequest = request.macroDistribution();
         MacroDistribution macroDistribution = macroService.resolveMacroDistribution(macroDistributionRequest);
-        MacroDistributionInput macroDistributionInput = macroDistributionInputMapper.toMacroDistributionInput(macroDistribution)
+        MacroDistributionInput macroDistributionInput = macroDistributionInputMapper.toMacroDistributionInput(macroDistribution);
 
         // Run simulation engine
         SimulationParameters simulationParameters =
@@ -80,7 +94,9 @@ public class SimulationServiceImpl implements SimulationService {
                         macroDistributionInput,
                         request.calorieTarget()
                 );
-        // **Swap return value in engine with Simulation result, then map, then return from here
         SimulationResult result = simulationEngine.run(simulationParameters);
+
+        // SimulationResult -> SimulationResponseDTO
+        return simulationResponseMapper.toNutritionResponseDTO(result);
     }
 }

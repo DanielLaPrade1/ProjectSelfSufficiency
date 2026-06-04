@@ -1,4 +1,4 @@
-package com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.mapper;
+package com.daniellaprade1.self_sufficiency_simulation.features.simulation.application.mapper.input;
 
 import com.daniellaprade1.self_sufficiency_simulation.features.nutrition.domain.valueobject.MacroDistribution;
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.parameters.MacroDistributionInput;

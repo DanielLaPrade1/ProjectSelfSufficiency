@@ -10,7 +10,7 @@ import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain
 import com.daniellaprade1.self_sufficiency_simulation.features.simulation.domain.valueobject.result.SimulationResult;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 
@@ -22,31 +22,51 @@ public class SimulationEngineImpl implements SimulationEngine {
     @Override
     public SimulationResult run(SimulationParameters parameters) {
 
-        // Calculate all nutrition metric totals / targets
-        Map<String, NutritionMetricResult> nutritionMetricTotals = new java.util.HashMap<>();
+        // Extract metrics
+        List<MetricValue> nutritionMetrics = parameters.cropInputs().getFirst().metrics();
 
+        // Compute nutrition metric totals and build results
+        Map<String, NutritionMetricResult> nutritionMetricResults = new java.util.HashMap<>();
+
+        for (MetricValue metricValue : nutritionMetrics) {
+            Double metricNutritionTarget = computeTargetNutritionValue(
+                    metricValue,
+                    parameters.macroDistributionInput(),
+                    parameters.dailyCalorieTarget()
+            );
+
+            // Initialize totals to 0 with computed targets
+            NutritionMetricResult currMetricResults =
+                    new NutritionMetricResult(
+                            new ValueRange(0d, 0d),
+                            metricNutritionTarget
+                    );
+
+            nutritionMetricResults.put(metricValue.key(), currMetricResults);
+        }
+
+        // Compute nutrition targets and add to results
         for (CropInput cropInput : parameters.cropInputs()) {
             for (MetricValue metricValue : cropInput.metrics()) {
+                NutritionMetricResult metricResult = nutritionMetricResults.get(metricValue.key());
 
-                ValueRange metricNutritionTotalRange = computeTotalNutritionRange(cropInput, metricValue.value());
-                Double metricNutritionTarget = computeTargetNutritionValue(
-                        metricValue,
-                        parameters.macroDistributionInput(),
-                        parameters.dailyCalorieTarget()
-                );
+                ValueRange currMetricTotals = computeTotalNutritionRange(cropInput, metricValue.value());
+                ValueRange newMetricTotals = metricResult.totals().add(currMetricTotals);
 
-                nutritionMetricTotals.put(
+                nutritionMetricResults.put(
                         metricValue.key(),
-                        new NutritionMetricResult(metricNutritionTotalRange, metricNutritionTarget)
+                        new NutritionMetricResult(newMetricTotals, metricResult.target())
                 );
             }
         }
 
-        // Compute self-sufficiency percentage
-        Double selfSufficiencyPercentage =
-                nutritionMetricTotals.get("CALORIES").totals().midpoint()
-                        / nutritionMetricTotals.get("CALORIES").target();
-        return new SimulationResult(nutritionMetricTotals, selfSufficiencyPercentage);
+        // Compute self-sufficiency percentage (only calorie related for now)
+        double totalCalories = nutritionMetricResults.get("CALORIES").totals().midpoint();
+        double targetCalories = nutritionMetricResults.get("CALORIES").target();
+        Double selfSufficiencyPercentage = totalCalories / targetCalories;
+
+        return new SimulationResult(nutritionMetricResults, selfSufficiencyPercentage);
+
     }
 
 
@@ -62,13 +82,17 @@ public class SimulationEngineImpl implements SimulationEngine {
         );
     }
 
-    private Double computeTargetNutritionValue(MetricValue metricValue, MacroDistributionInput macroDistribution, Double dailyCalorieTarget) {
+    private Double computeTargetNutritionValue(
+            MetricValue metricValue,
+            MacroDistributionInput macroDistribution,
+            Double dailyCalorieTarget
+    ) {
         double simulationCalorieTarget = dailyCalorieTarget * SIMULATION_LENGTH_DAYS;
         if (metricValue.key().equals("CALORIES")) {
             return simulationCalorieTarget;
         }
         double macroSplitDecimal = macroDistribution.getByKey(metricValue.key()) / 100;
-        return dailyCalorieTarget * macroSplitDecimal;
+        return simulationCalorieTarget * macroSplitDecimal;
     }
 
 }
