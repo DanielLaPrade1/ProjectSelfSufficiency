@@ -59,8 +59,6 @@ This project explores several backend and data-modeling challenges, including:
 - Supporting extensible calculations for crops, livestock, and environmental systems
 - Generating meaningful recommendations from incomplete datasets
 
----
-
 ## Current Development Focus
 
 The current milestone focuses on building the foundational calculation engine and full-stack workflow for food self-sufficiency analysis.
@@ -70,3 +68,11 @@ The current milestone focuses on building the foundational calculation engine an
 - Early versions may use estimated or static agricultural datasets from a variety of sources
 - Accuracy and simulation complexity will improve over time, as more features will be introduced
 - The project is designed to support future expansion into larger sustainability and homesteading systems (animals, composting, etc.)
+
+---
+
+<p align="center">
+  <img width="275" src="https://github.com/user-attachments/assets/e59f37c7-f3d8-4302-a9e9-f3df7377b4c0" />
+  <img width="642" src="https://github.com/user-attachments/assets/9634062e-260a-4b82-bd3d-a40fd68a95a4" />
+</p>
+
