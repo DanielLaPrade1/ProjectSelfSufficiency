@@ -72,7 +72,7 @@ The current milestone focuses on building the foundational calculation engine an
 ---
 
 <p align="center">
-  <img width="275" src="https://github.com/user-attachments/assets/e59f37c7-f3d8-4302-a9e9-f3df7377b4c0" />
-  <img width="642" src="https://github.com/user-attachments/assets/9634062e-260a-4b82-bd3d-a40fd68a95a4" />
+  <img width="192" src="https://github.com/user-attachments/assets/e59f37c7-f3d8-4302-a9e9-f3df7377b4c0" />
+  <img width="450" src="https://github.com/user-attachments/assets/9634062e-260a-4b82-bd3d-a40fd68a95a4" />
 </p>
 
