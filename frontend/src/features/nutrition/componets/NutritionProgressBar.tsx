@@ -104,17 +104,18 @@ export function NutritionProgressBar({
   // Values
   const safeMin = Math.max(0, Math.min(min, goal));
   const safeMax = Math.max(safeMin, Math.min(max, goal));
-  const mid = Math.round((safeMin + safeMax) / 2);
+  const mid = Math.round((min + max) / 2);
 
   // Percentages
   const safePMinDisplayMinimum = 1;
   const safePMaxDisplayMinimum = 3;
+  const safePMidDisplayMinimum = 2;
 
   const pMin = Math.max(safePMinDisplayMinimum, (safeMin / goal) * 100);
   const pMax = Math.max(safePMaxDisplayMinimum, (safeMax / goal) * 100);
   const pMid = Math.max(
-    2,
-    Math.min(100, ((safeMin + safeMax) / 2 / goal) * 100),
+    safePMidDisplayMinimum,
+    Math.min(100, ((min + max) / 2 / goal) * 100),
   );
 
   const showSafeMinAndMax = pMin > 10;

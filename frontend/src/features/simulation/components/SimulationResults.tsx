@@ -26,29 +26,29 @@ export function SimulationResults({
         <div className="w-full max-w-2xl px-4 py-6">
           <NutritionProgressBar
             label="Calories Produced"
-            min={totals.CALORIES.yieldMin}
-            max={totals.CALORIES.yieldMax}
+            min={totals.CALORIES.min}
+            max={totals.CALORIES.max}
             goal={targets.CALORIES}
             labelGrams={false}
           />
           <NutritionProgressBar
             label="Protein Produced"
-            min={totals.PROTEIN.yieldMin}
-            max={totals.PROTEIN.yieldMax}
+            min={totals.PROTEIN.min}
+            max={totals.PROTEIN.max}
             goal={targets.PROTEIN}
             color="#297fff"
           />
           <NutritionProgressBar
             label="Fat Produced"
-            min={totals.FAT.yieldMin}
-            max={totals.FAT.yieldMax}
+            min={totals.FAT.min}
+            max={totals.FAT.max}
             goal={targets.FAT}
             color="#fdbb00"
           />
           <NutritionProgressBar
             label="Carbs Produced"
-            min={totals.CARBS.yieldMin}
-            max={totals.CARBS.yieldMax}
+            min={totals.CARBS.min}
+            max={totals.CARBS.max}
             goal={targets.CARBS}
             color="#00c94f"
           />

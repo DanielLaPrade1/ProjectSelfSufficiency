@@ -20,8 +20,8 @@ const NUTRITION_METRIC = {
 export type NutritionMetric = typeof NUTRITION_METRIC[keyof typeof NUTRITION_METRIC];
 
 export interface NutritionRange {
-  yieldMin: number
-  yieldMax: number
+  min: number
+  max: number
 }
 
 
