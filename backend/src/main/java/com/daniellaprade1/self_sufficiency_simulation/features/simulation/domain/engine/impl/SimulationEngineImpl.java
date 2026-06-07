@@ -17,10 +17,12 @@ import java.util.Map;
 @Component
 public class SimulationEngineImpl implements SimulationEngine {
 
-    private static final int SIMULATION_LENGTH_DAYS = 365;
+    private static final int DEFAULT_SIMULATION_LENGTH_DAYS = 365;
 
     @Override
     public SimulationResult run(SimulationParameters parameters) {
+
+        double simulationLengthDays = resolveSimulationLength(parameters.simulationLengthDays());
 
         // Extract metrics
         List<MetricValue> nutritionMetrics = parameters.cropInputs().getFirst().metrics();
@@ -32,7 +34,8 @@ public class SimulationEngineImpl implements SimulationEngine {
             Double metricNutritionTarget = computeTargetNutritionValue(
                     metricValue,
                     parameters.macroDistributionInput(),
-                    parameters.dailyCalorieTarget()
+                    parameters.dailyCalorieTarget(),
+                    parameters.simulationLengthDays()
             );
 
             // Initialize totals to 0 with computed targets
@@ -82,17 +85,22 @@ public class SimulationEngineImpl implements SimulationEngine {
         );
     }
 
-    private Double computeTargetNutritionValue(
+    private double computeTargetNutritionValue(
             MetricValue metricValue,
             MacroDistributionInput macroDistribution,
-            Double dailyCalorieTarget
+            Double dailyCalorieTarget,
+            double simulationLengthDays
     ) {
-        double simulationCalorieTarget = dailyCalorieTarget * SIMULATION_LENGTH_DAYS;
+        double simulationCalorieTarget = dailyCalorieTarget * simulationLengthDays;
         if (metricValue.key().equals("CALORIES")) {
             return simulationCalorieTarget;
         }
         double macroSplitDecimal = macroDistribution.getByKey(metricValue.key()) / 100;
         return simulationCalorieTarget * macroSplitDecimal;
+    }
+
+    private double resolveSimulationLength(Double simulationLength) {
+        return (simulationLength == null) ? DEFAULT_SIMULATION_LENGTH_DAYS : simulationLength;
     }
 
 }

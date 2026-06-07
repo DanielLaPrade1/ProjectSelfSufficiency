@@ -14,11 +14,14 @@ public record SimulationRequestDTO(
         @Positive(message = "calorieTarget must be greater than 0")
         Double calorieTarget,
 
-        @NotEmpty(message = "cropRequests cannot be empty")
         @Valid
-        List<CropRequestDTO> cropRequests,
+        Double simulationLengthDays,
 
         @NotNull(message = "macroDistribution is required")
         @Valid
-        MacroDistributionRequestDTO macroDistribution
+        MacroDistributionRequestDTO macroDistribution,
+
+        @NotEmpty(message = "cropRequests cannot be empty")
+        @Valid
+        List<CropRequestDTO> cropRequests
 ) {}

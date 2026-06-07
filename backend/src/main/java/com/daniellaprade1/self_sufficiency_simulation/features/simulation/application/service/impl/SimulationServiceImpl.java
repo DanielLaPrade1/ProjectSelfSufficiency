@@ -92,7 +92,8 @@ public class SimulationServiceImpl implements SimulationService {
                 new SimulationParameters(
                         cropInputs,
                         macroDistributionInput,
-                        request.calorieTarget()
+                        request.calorieTarget(),
+                        request.simulationLengthDays()
                 );
         SimulationResult result = simulationEngine.run(simulationParameters);
 

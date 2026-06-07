@@ -5,5 +5,6 @@ import java.util.List;
 public record SimulationParameters(
         List<CropInput> cropInputs,
         MacroDistributionInput macroDistributionInput,
-        Double dailyCalorieTarget
+        Double dailyCalorieTarget,
+        Double simulationLengthDays
 ) {}
