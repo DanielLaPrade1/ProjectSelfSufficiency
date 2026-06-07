@@ -54,6 +54,7 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
 
     const req: SimulationRequest = {
       calorieTarget: ct,
+      simulationLength: undefined, // Replace
       cropRequests: selectedCrops,
       macroDistribution: macroDistribution,
     };
@@ -74,10 +75,11 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
   return (
     <div className="w-full max-w-2xl px-4 py-6">
       {/* ── Page header ──────────────────────────────────────────────────── */}
-      <div className="mb-6">
-        <h1 className="text-5xl font-bold text-gray-900">Crop Simulation</h1>
-        <p className="mt-1 text-md text-gray-500">
-          Configure your harvest inputs and run a nutritional yield simulation.
+      <div className="mb-6 p-5">
+        <h1 className="text-6xl font-bold text-gray-900">Crop Simulation</h1>
+        <p className="mt-2 ml-2 text-md text-gray-500">
+          Add your nutritional goals and crops. Runs a nutritional yield
+          simulation.
         </p>
       </div>
 

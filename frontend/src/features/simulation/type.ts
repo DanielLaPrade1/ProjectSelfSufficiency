@@ -29,8 +29,10 @@ export interface NutritionRange {
 
 export interface SimulationRequest {
   calorieTarget: number
-  cropRequests: CropRequest[]
+  simulationLength: number | undefined
   macroDistribution: MacroDistributionRequest
+  cropRequests: CropRequest[]
+
 }
 
 // CropRequestDTO
