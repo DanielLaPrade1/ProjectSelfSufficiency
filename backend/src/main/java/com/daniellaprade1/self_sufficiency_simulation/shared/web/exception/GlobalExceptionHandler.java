@@ -1,4 +1,4 @@
-package com.daniellaprade1.self_sufficiency_simulation.web.exception;
+package com.daniellaprade1.self_sufficiency_simulation.shared.web.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
