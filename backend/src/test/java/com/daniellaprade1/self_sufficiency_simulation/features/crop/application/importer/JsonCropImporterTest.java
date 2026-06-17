@@ -1,9 +1,11 @@
 package com.daniellaprade1.self_sufficiency_simulation.features.crop.application.importer;
 
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.application.dto.imp.CropImportDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.application.dto.NutritionDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.application.dto.imp.VarietyImportDTO;
-import com.daniellaprade1.self_sufficiency_simulation.features.crop.application.dto.YieldDTO;
+import com.daniellaprade1.self_sufficiency_simulation.modules.crop.application.dto.imp.CropImportDTO;
+import com.daniellaprade1.self_sufficiency_simulation.modules.crop.application.dto.NutritionDTO;
+import com.daniellaprade1.self_sufficiency_simulation.modules.crop.application.dto.imp.VarietyImportDTO;
+import com.daniellaprade1.self_sufficiency_simulation.modules.crop.application.dto.YieldDTO;
+import com.daniellaprade1.self_sufficiency_simulation.modules.crop.application.importer.CropJsonParser;
+import com.daniellaprade1.self_sufficiency_simulation.modules.crop.application.importer.JsonCropImporter;
 import org.junit.jupiter.api.Test;
 import tools.jackson.databind.ObjectMapper;
 
