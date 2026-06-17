@@ -2,7 +2,7 @@ package com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.applica
 
 import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.application.dto.MacroPresetResponseDTO;
 import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.domain.valueobject.MacroDistribution;
-import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.application.dto.MacroDistributionRequestDTO;
+import com.daniellaprade1.self_sufficiency_simulation.modules.simulation.application.dto.request.MacroDistributionRequestDTO;
 
 import java.util.List;
 

@@ -1,5 +1,6 @@
-package com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.application.dto;
+package com.daniellaprade1.self_sufficiency_simulation.modules.simulation.application.dto.request;
 
+import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.application.dto.MacroDistributionDTO;
 import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.domain.enums.MacroDistributionPreset;
 import jakarta.validation.constraints.AssertTrue;
 

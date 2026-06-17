@@ -3,7 +3,7 @@ package com.daniellaprade1.self_sufficiency_simulation.modules.simulation.applic
 import com.daniellaprade1.self_sufficiency_simulation.modules.crop.domain.entity.Variety;
 import com.daniellaprade1.self_sufficiency_simulation.modules.crop.infra.persistence.VarietyRepository;
 import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.application.service.MacroService;
-import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.application.dto.MacroDistributionRequestDTO;
+import com.daniellaprade1.self_sufficiency_simulation.modules.simulation.application.dto.request.MacroDistributionRequestDTO;
 import com.daniellaprade1.self_sufficiency_simulation.modules.simulation.application.mapper.input.CropInputMapper;
 import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.domain.valueobject.MacroDistribution;
 import com.daniellaprade1.self_sufficiency_simulation.modules.simulation.application.mapper.input.MacroDistributionInputMapper;

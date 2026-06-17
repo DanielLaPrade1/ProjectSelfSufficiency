@@ -5,7 +5,7 @@ import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.applicat
 import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.application.service.MacroService;
 import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.domain.enums.MacroDistributionPreset;
 import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.domain.valueobject.MacroDistribution;
-import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.application.dto.MacroDistributionRequestDTO;
+import com.daniellaprade1.self_sufficiency_simulation.modules.simulation.application.dto.request.MacroDistributionRequestDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
