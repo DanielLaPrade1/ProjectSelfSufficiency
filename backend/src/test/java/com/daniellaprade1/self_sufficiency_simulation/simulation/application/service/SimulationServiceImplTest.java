@@ -89,6 +89,7 @@ class SimulationServiceImplTest {
         SimulationResponseDTO out = service.runSimulation(request);
 
         // Assert
+
         assertThat(out).isSameAs(responseDto);
 
         var captor = ArgumentCaptor.forClass(SimulationParameters.class);
