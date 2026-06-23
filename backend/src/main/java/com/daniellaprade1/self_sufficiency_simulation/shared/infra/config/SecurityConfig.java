@@ -16,6 +16,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -27,17 +29,20 @@ import java.util.List;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) {
-        return httpSecurity
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        CookieCsrfTokenRepository tokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
+        tokenRepository.setCookiePath("/");
+
+        return http
                 .cors(Customizer.withDefaults())
-                .csrf(CsrfConfigurer::spa)
-                .authorizeHttpRequests(auth -> auth
-                        .anyRequest().authenticated())
+                .csrf(csrf -> csrf
+                        .csrfTokenRepository(tokenRepository)
+                        .csrfTokenRequestHandler(new SpaCsrfTokenRequestHandler()))
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
                 .logout(logout -> logout
                         .logoutUrl("/auth/logout")
-                        .logoutSuccessHandler(
-                                (req, res, authn) -> res.setStatus(HttpServletResponse.SC_OK)))
-                // Default form login
+                        .logoutSuccessHandler((req, res, authn) -> res.setStatus(HttpServletResponse.SC_OK)))
                 .formLogin(Customizer.withDefaults())
                 .build();
     }
@@ -54,7 +59,7 @@ public class SecurityConfig {
         return src;
     }
 
-    // Temporary, move to auth package later
+    // Temporary, move to auth package later, take in real user credentials
     @Bean
     UserDetailsService userDetailsService(PasswordEncoder encoder) {
         UserDetails user = User.withUsername("user")
