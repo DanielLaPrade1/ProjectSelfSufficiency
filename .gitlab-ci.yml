@@ -1,0 +1,47 @@
+stages:
+  - build
+  - test
+
+variables:
+  # JVM -> Maven
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+backend-build:
+  stage: build
+  image: maven:3.9-eclipse-temurin-21
+  cache:
+    key: mvn-$CI_COMMIT_REF_SLUG
+    paths:
+      - .m2/repository
+  script:
+    - cd backend
+    - mvn clean compile
+  
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - backend/target/surefire-reports/TEST-*.xml
+  rules:
+    - changes:
+      - backend/**/*
+  
+backend-test:
+  stage: test
+  image: maven:3.9-eclipse-temurin-21
+  cache:
+    key: maven-$CI_COMMIT_REF_SLUG
+    paths:
+      - .m2/repository
+  script:
+    - cd backend
+    - mvn $MAVEN_OPTS test
+  
+  artifacts:
+    when: always
+    reports:
+      junit:
+        - backend/target/surefire-reports/TEST-*.xml
+  rules:
+    - changes:
+        - backend/**/*
