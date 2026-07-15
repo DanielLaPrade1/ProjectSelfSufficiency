@@ -54,7 +54,7 @@ export function SimulationForm({ simulationMutation }: SimulationFormProps) {
 
     const req: SimulationRequest = {
       calorieTarget: ct,
-      simulationLength: undefined, // Replace
+      simulationLengthDays: 365, // Replace
       cropRequests: selectedCrops,
       macroDistribution: macroDistribution,
     };

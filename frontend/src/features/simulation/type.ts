@@ -29,7 +29,7 @@ export interface NutritionRange {
 
 export interface SimulationRequest {
   calorieTarget: number
-  simulationLength: number | undefined
+  simulationLengthDays: number
   macroDistribution: MacroDistributionRequest
   cropRequests: CropRequest[]
 

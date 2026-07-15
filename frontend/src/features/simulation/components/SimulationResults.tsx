@@ -33,10 +33,7 @@ export function SimulationResults({
           <p className="mb-6 text-sm text-gray-500">
             You are{" "}
             <span className="text-lg font-bold text-[#5c6ac4]">
-              {(
-                simulationMutation.data.selfSufficiencyPercentage * 100
-              ).toFixed(2)}
-              %
+              {simulationMutation.data.selfSufficiencyPercentage.toFixed(2)}%
             </span>{" "}
             self-sufficient
           </p>
