@@ -4,7 +4,7 @@ import com.daniellaprade1.self_sufficiency_simulation.modules.nutrition.domain.v
 
 public enum MacroDistributionPreset {
     STANDARD(30, 30, 40),
-    MUSCLE_BUILDING(30, 20, 50),
+    MUSCLE_BUILDING(35, 20, 45),
     KETO(5, 25, 70);
 
     private final MacroDistribution distribution;
